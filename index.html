@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABN Artisan.ng | Find Trusted Artisans in Nigeria</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        abn: { navy: '#0F172A', emerald: '#059669', gold: '#F59E0B' }
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .card {
+            background-color: #fff;
+            border-radius: 1rem;
+            border: 1px solid rgb(241 245 249);
+            box-shadow: 0 1px 2px 0 rgb(15 23 42 / 0.05);
+            transition: all 300ms ease;
+        }
+        .card:hover {
+            box-shadow: 0 25px 50px -12px rgb(15 23 42 / 0.25);
+            transform: translateY(-0.25rem);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-abn-emerald rounded-xl flex items-center justify-center text-white font-bold text-xl">A</div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-xl text-abn-navy leading-none">ABN Artisan<span class="text-abn-emerald">.ng</span></span>
+                        <span class="text-[10px] text-slate-500 font-medium tracking-wide">by ABN Technologies & Logistics</span>
+                    </div>
+                </a>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">Home</a>
+                    <a href="#" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">Find an Artisan</a>
+                    <a href="#" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">Categories</a>
+                    <a href="#" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">How It Works</a>
+                </div>
+
+                <!-- Updated Navigation Button -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="#artisan-register" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2.5 px-6 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2">
+                        <i class="ri-briefcase-4-line"></i> Are you an Artisan?
+                    </a>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600">
+                    <i class="ri-menu-line text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-6 space-y-4">
+            <a href="index.html" class="block text-slate-700 font-medium py-2">Home</a>
+            <a href="#" class="block text-slate-700 font-medium py-2">Find an Artisan</a>
+            <a href="#" class="block text-slate-700 font-medium py-2">Categories</a>
+            <!-- Updated Mobile Navigation Button -->
+            <a href="#artisan-register" class="block w-full text-center bg-abn-navy text-white font-semibold py-3 rounded-xl mt-4 flex items-center justify-center gap-2">
+                <i class="ri-briefcase-4-line"></i> Are you an Artisan?
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-abn-navy overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1920&q=80')] bg-cover bg-center opacity-20"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-abn-navy via-abn-navy/95 to-abn-navy/70"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 bg-abn-emerald/20 text-abn-emerald px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-abn-emerald/30">
+                    <i class="ri-shield-check-line"></i> Nigeria's Most Trusted Service Marketplace
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
+                    Find Trusted Artisans.<br>
+                    <span class="text-abn-emerald">Get Quality Work Done.</span>
+                </h1>
+                <p class="text-lg text-slate-300 mb-10 max-w-2xl">Connect with skilled and verified artisans around you for reliable home, business and personal services.</p>
+                
+                <div class="bg-white p-4 rounded-2xl shadow-2xl flex flex-col md:flex-row gap-4 max-w-4xl">
+                    <div class="flex-1 relative">
+                        <i class="ri-search-line absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl"></i>
+                        <input type="text" placeholder="What service? (e.g., Plumber)" class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 font-medium">
+                    </div>
+                    <div class="flex-1 relative">
+                        <i class="ri-map-pin-line absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl"></i>
+                        <input type="text" placeholder="Where? (e.g., Port Harcourt)" class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 font-medium">
+                    </div>
+                    <button class="bg-abn-emerald hover:bg-emerald-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 whitespace-nowrap">
+                        Find an Artisan
+                    </button>
+                </div>
+
+                <div class="flex flex-wrap gap-6 mt-10 text-slate-300 text-sm font-medium">
+                    <div class="flex items-center gap-2"><i class="ri-checkbox-circle-fill text-abn-emerald text-lg"></i> Verified Artisans</div>
+                    <div class="flex items-center gap-2"><i class="ri-checkbox-circle-fill text-abn-emerald text-lg"></i> Transparent Profiles</div>
+                    <div class="flex items-center gap-2"><i class="ri-checkbox-circle-fill text-abn-emerald text-lg"></i> Customer Reviews</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section (Expanded & Cleaned) -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-abn-navy mb-4">Explore Popular Services</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">From home repairs to professional services, find the right expert for your needs.</p>
+            </div>
+            
+            <!-- Expanded Grid: 16 Services, No Fake Numbers -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🔧</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Plumbing</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">⚡</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Electrical Services</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🪚</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Carpentry</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🎨</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Painting</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🧱</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Tiling</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🔥</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Welding</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🧹</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Cleaning</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">⚙️</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Generator Repairs</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">❄️</div>
+                    <h3 class="font-bold text-abn-navy mb-1">AC & Refrigeration</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">📱</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Phone Repairs</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🚗</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Auto Mechanics</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">👗</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Fashion & Tailoring</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">💇‍♀️</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Hair & Beauty</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🍲</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Catering</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">📸</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Photography</h3>
+                </a>
+                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">💻</div>
+                    <h3 class="font-bold text-abn-navy mb-1">Web Development</h3>
+                </a>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center gap-2 text-abn-emerald font-bold hover:gap-3 transition-all">
+                    View All Categories <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Artisans -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-abn-navy mb-4">Top Rated Artisans</h2>
+                    <p class="text-slate-600">Highly reviewed professionals ready to help you today.</p>
+                </div>
+                <a href="#" class="hidden md:flex items-center gap-2 text-abn-emerald font-bold hover:gap-3 transition-all">View All <i class="ri-arrow-right-line"></i></a>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Artisan Card 1 -->
+                <div class="card overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Chinedu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-abn-emerald text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-lg">
+                            <i class="ri-shield-check-fill"></i> Verified
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg text-abn-navy">Chinedu Okafor</h3>
+                        <p class="text-abn-emerald font-medium text-sm mb-2">Master Electrician</p>
+                        <div class="flex items-center gap-1 text-slate-500 text-sm mb-4">
+                            <i class="ri-map-pin-line"></i> Port Harcourt, Rivers
+                        </div>
+                        <div class="flex items-center gap-4 mb-4 text-sm">
+                            <div class="flex items-center gap-1 text-abn-gold font-bold"><i class="ri-star-fill"></i> 4.9</div>
+                            <span class="text-slate-400">|</span>
+                            <span class="text-slate-600">128 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <div>
+                                <span class="text-xs text-slate-500">From</span>
+                                <p class="font-bold text-abn-navy">₦10,000</p>
+                            </div>
+                            <button onclick="openProfileModal(1)" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artisan Card 2 -->
+                <div class="card overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop" alt="Emeka" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-abn-emerald text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-lg">
+                            <i class="ri-shield-check-fill"></i> Verified
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg text-abn-navy">Emeka Nwosu</h3>
+                        <p class="text-abn-emerald font-medium text-sm mb-2">Professional Plumber</p>
+                        <div class="flex items-center gap-1 text-slate-500 text-sm mb-4">
+                            <i class="ri-map-pin-line"></i> Lekki, Lagos
+                        </div>
+                        <div class="flex items-center gap-4 mb-4 text-sm">
+                            <div class="flex items-center gap-1 text-abn-gold font-bold"><i class="ri-star-fill"></i> 4.8</div>
+                            <span class="text-slate-400">|</span>
+                            <span class="text-slate-600">94 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <div>
+                                <span class="text-xs text-slate-500">From</span>
+                                <p class="font-bold text-abn-navy">₦8,000</p>
+                            </div>
+                            <button onclick="openProfileModal(2)" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-abn-navy text-slate-300 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <div class="w-10 h-10 bg-abn-emerald rounded-xl flex items-center justify-center text-white font-bold text-xl">A</div>
+                <span class="font-bold text-xl text-white">ABN Artisan<span class="text-abn-emerald">.ng</span></span>
+            </div>
+            <p class="text-sm mb-8 max-w-md mx-auto">Connecting people with skilled professionals across Nigeria. Powered by ABN Technologies & Logistics.</p>
+            <div class="border-t border-slate-800 pt-8 text-sm text-slate-500">
+                © 2026 ABN Technologies & Logistics. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- MODAL 1: ARTISAN PROFILE MODAL             -->
+    <!-- ========================================== -->
+    <div id="profileModal" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm transition-opacity" onclick="closeProfileModal()"></div>
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+                <button onclick="closeProfileModal()" class="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-slate-100 transition-colors">
+                    <i class="ri-close-line text-2xl text-slate-600"></i>
+                </button>
+                <div id="modalContent">
+                    <div class="h-48 bg-slate-200 relative">
+                        <img id="modalImage" src="" alt="Artisan" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 to-transparent p-6">
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <h2 id="modalName" class="text-2xl font-bold text-white"></h2>
+                                    <p id="modalTitle" class="text-abn-emerald font-medium"></p>
+                                </div>
+                                <div id="modalVerified" class="hidden bg-abn-emerald text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
+                                    <i class="ri-shield-check-fill"></i> Verified
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 sm:p-8 space-y-6">
+                        <div class="flex flex-wrap items-center gap-4 text-sm border-b border-slate-100 pb-6">
+                            <div class="flex items-center gap-1 text-abn-gold font-bold"><i class="ri-star-fill"></i> <span id="modalRating"></span></div>
+                            <div class="text-slate-400">|</div>
+                            <div class="text-slate-600"><span id="modalReviews"></span> reviews</div>
+                            <div class="text-slate-400">|</div>
+                            <div class="flex items-center gap-1 text-slate-600"><i class="ri-map-pin-line"></i> <span id="modalLocation"></span></div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-abn-navy mb-2">About</h3>
+                            <p id="modalBio" class="text-slate-600 leading-relaxed"></p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-abn-navy mb-3">Services Offered</h3>
+                            <div id="modalServices" class="flex flex-wrap gap-2"></div>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 text-center">
+                            <div id="contactLocked">
+                                <i class="ri-lock-2-line text-3xl text-slate-400 mb-2"></i>
+                                <h3 class="font-bold text-abn-navy mb-1">Want to contact this artisan?</h3>
+                                <p class="text-sm text-slate-500 mb-4">Pay a one-time fee of <span class="font-bold text-abn-emerald" id="modalContactFee"></span> to unlock their direct phone number and email.</p>
+                                <button onclick="openPaymentModal()" class="w-full bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                                    <i class="ri-unlock-line"></i> Contact Artisan
+                                </button>
+                            </div>
+                            <div id="contactUnlocked" class="hidden">
+                                <div class="flex items-center justify-center gap-2 text-abn-emerald font-bold mb-4">
+                                    <i class="ri-checkbox-circle-fill text-xl"></i> Contact Details Unlocked!
+                                </div>
+                                <div class="space-y-3 text-left">
+                                    <div class="flex items-center gap-3 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center shrink-0"><i class="ri-phone-line text-xl"></i></div>
+                                        <div>
+                                            <p class="text-xs text-slate-500 font-medium uppercase tracking-wide">Phone Number</p>
+                                            <p id="unlockedPhone" class="font-bold text-abn-navy text-lg"></p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                                        <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center shrink-0"><i class="ri-mail-line text-xl"></i></div>
+                                        <div>
+                                            <p class="text-xs text-slate-500 font-medium uppercase tracking-wide">Email Address</p>
+                                            <p id="unlockedEmail" class="font-bold text-abn-navy"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 2: PAYMENT MODAL                     -->
+    <!-- ========================================== -->
+    <div id="paymentModal" class="fixed inset-0 z-[70] hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" onclick="closePaymentModal()"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:w-full sm:max-w-md p-6 sm:p-8">
+                <button onclick="closePaymentModal()" class="absolute top-4 right-4 p-2 hover:bg-slate-100 rounded-full transition-colors">
+                    <i class="ri-close-line text-xl text-slate-500"></i>
+                </button>
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-abn-emerald/10 text-abn-emerald rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="ri-secure-payment-line text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-abn-navy mb-2">Unlock Contact Details</h3>
+                    <p class="text-slate-500 text-sm">You are about to pay a one-time fee to contact <span id="payArtisanName" class="font-bold text-abn-navy"></span>.</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-5 mb-6 border border-slate-200">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-slate-600">Contact Fee</span>
+                        <span id="payAmount" class="font-bold text-abn-navy"></span>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-slate-200">
+                        <span class="font-bold text-abn-navy">Total</span>
+                        <span id="payTotal" class="font-bold text-abn-emerald text-xl"></span>
+                    </div>
+                </div>
+                <button id="payButton" onclick="simulatePayment()" class="w-full bg-abn-navy hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                    <i class="ri-bank-card-line text-lg"></i> Pay Now
+                </button>
+                <div id="paymentProcessing" class="hidden w-full bg-slate-100 text-slate-600 font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2">
+                    <i class="ri-loader-4-line animate-spin text-xl"></i> Processing Payment...
+                </div>
+                <p class="text-xs text-center text-slate-400 mt-5 flex items-center justify-center gap-1">
+                    <i class="ri-shield-check-line text-green-600"></i> Secured by Paystack
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vanilla JS Logic -->
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const artisans = [
+            {
+                id: 1,
+                name: "Chinedu Okafor",
+                title: "Master Electrician",
+                location: "Port Harcourt, Rivers State",
+                rating: 4.9,
+                reviews: 128,
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+                verified: true,
+                bio: "Certified electrical engineer with over 8 years of experience specializing in residential wiring, generator installation, and solar power setups. I prioritize safety, efficiency, and clean workmanship in every job.",
+                services: ["House Wiring", "Generator Repair", "Solar Installation", "Fault Finding"],
+                phone: "0803 456 7890",
+                email: "chinedu.electric@abnartisan.ng",
+                contactFee: 1000
+            },
+            {
+                id: 2,
+                name: "Emeka Nwosu",
+                title: "Professional Plumber",
+                location: "Lekki, Lagos State",
+                rating: 4.8,
+                reviews: 94,
+                image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
+                verified: true,
+                bio: "Expert in pipe fitting, leak detection, and bathroom renovations. Fast response time guaranteed with a 100% satisfaction rate on all completed plumbing jobs across Lagos.",
+                services: ["Leak Repair", "Pipe Installation", "Bathroom Renovation", "Water Heater Installation"],
+                phone: "0806 123 4567",
+                email: "emeka.plumber@abnartisan.ng",
+                contactFee: 1000
+            }
+        ];
+
+        let currentArtisan = null;
+
+        function openProfileModal(artisanId) {
+            currentArtisan = artisans.find(a => a.id === artisanId);
+            if (!currentArtisan) return;
+
+            document.getElementById('modalImage').src = currentArtisan.image;
+            document.getElementById('modalName').textContent = currentArtisan.name;
+            document.getElementById('modalTitle').textContent = currentArtisan.title;
+            document.getElementById('modalRating').textContent = currentArtisan.rating;
+            document.getElementById('modalReviews').textContent = currentArtisan.reviews;
+            document.getElementById('modalLocation').textContent = currentArtisan.location;
+            document.getElementById('modalBio').textContent = currentArtisan.bio;
+            document.getElementById('modalContactFee').textContent = '₦' + currentArtisan.contactFee.toLocaleString();
+            
+            const verifiedBadge = document.getElementById('modalVerified');
+            currentArtisan.verified ? verifiedBadge.classList.remove('hidden') : verifiedBadge.classList.add('hidden');
+
+            const servicesContainer = document.getElementById('modalServices');
+            servicesContainer.innerHTML = '';
+            currentArtisan.services.forEach(service => {
+                const span = document.createElement('span');
+                span.className = 'bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium border border-slate-200';
+                span.textContent = service;
+                servicesContainer.appendChild(span);
+            });
+
+            document.getElementById('contactLocked').classList.remove('hidden');
+            document.getElementById('contactUnlocked').classList.add('hidden');
+
+            document.getElementById('profileModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openPaymentModal() {
+            if (!currentArtisan) return;
+            document.getElementById('payArtisanName').textContent = currentArtisan.name;
+            document.getElementById('payAmount').textContent = '₦' + currentArtisan.contactFee.toLocaleString();
+            document.getElementById('payTotal').textContent = '₦' + currentArtisan.contactFee.toLocaleString();
+            
+            document.getElementById('payButton').classList.remove('hidden');
+            document.getElementById('paymentProcessing').classList.add('hidden');
+            
+            document.getElementById('paymentModal').classList.remove('hidden');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+        }
+
+        function simulatePayment() {
+            const payBtn = document.getElementById('payButton');
+            const processing = document.getElementById('paymentProcessing');
+            
+            payBtn.classList.add('hidden');
+            processing.classList.remove('hidden');
+
+            setTimeout(() => {
+                processing.classList.add('hidden');
+                payBtn.classList.remove('hidden');
+                closePaymentModal();
+                
+                document.getElementById('contactLocked').classList.add('hidden');
+                document.getElementById('contactUnlocked').classList.remove('hidden');
+                document.getElementById('unlockedPhone').textContent = currentArtisan.phone;
+                document.getElementById('unlockedEmail').textContent = currentArtisan.email;
+                
+                alert("✅ Payment Successful!\n\nContact details have been unlocked.");
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

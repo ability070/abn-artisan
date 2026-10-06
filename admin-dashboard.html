@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | ABN Artisan.ng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { abn: { navy: '#0F172A', emerald: '#059669' } },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
+
+    <div class="min-h-screen flex">
+        <!-- Mobile Overlay -->
+        <div id="admin-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleAdminSidebar()"></div>
+
+        <!-- Sidebar -->
+        <aside id="admin-sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-abn-navy text-slate-300 border-r border-slate-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+            <div class="p-6 flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-abn-emerald rounded-lg flex items-center justify-center text-white font-bold">A</div>
+                    <span class="font-bold text-lg text-white">ABN Admin</span>
+                </a>
+                <button class="lg:hidden text-slate-400" onclick="toggleAdminSidebar()"><i class="ri-close-line text-2xl"></i></button>
+            </div>
+            <nav class="px-4 space-y-1 mt-4">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-abn-emerald text-white shadow-lg shadow-emerald-900/50">
+                    <i class="ri-dashboard-line text-lg"></i> Dashboard
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="ri-user-line text-lg"></i> Users
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="ri-briefcase-line text-lg"></i> Artisans
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="ri-file-text-line text-lg"></i> Service Requests
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="ri-shield-alert-line text-lg"></i> Reports & Safety
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="ri-bar-chart-box-line text-lg"></i> Analytics
+                </a>
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-colors mt-8">
+                    <i class="ri-logout-box-r-line text-lg"></i> Log Out
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 min-w-0">
+            <!-- Header -->
+            <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-30">
+                <div class="flex items-center gap-4">
+                    <button class="lg:hidden p-2 hover:bg-slate-100 rounded-lg" onclick="toggleAdminSidebar()">
+                        <i class="ri-menu-line text-2xl text-slate-600"></i>
+                    </button>
+                    <h1 class="text-xl font-bold text-abn-navy">Platform Overview</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="relative p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+                        <i class="ri-shield-alert-line text-xl"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+                    </button>
+                    <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-bold text-abn-navy">Admin User</p>
+                            <p class="text-xs text-slate-500">Super Administrator</p>
+                        </div>
+                        <div class="w-10 h-10 bg-abn-navy rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-sm">
+                            AD
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-6 lg:p-8 max-w-7xl mx-auto space-y-8">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-50 text-blue-600"><i class="ri-user-line text-2xl"></i></div>
+                            <span class="text-xs font-semibold text-abn-emerald bg-emerald-50 px-2 py-1 rounded-full">+12% this month</span>
+                        </div>
+                        <p class="text-slate-500 text-sm font-medium">Total Users</p>
+                        <p class="text-2xl font-bold text-abn-navy mt-1">12,450</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-emerald-50 text-abn-emerald"><i class="ri-briefcase-line text-2xl"></i></div>
+                            <span class="text-xs font-semibold text-abn-emerald bg-emerald-50 px-2 py-1 rounded-full">+5% this month</span>
+                        </div>
+                        <p class="text-slate-500 text-sm font-medium">Active Artisans</p>
+                        <p class="text-2xl font-bold text-abn-navy mt-1">3,210</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-purple-50 text-purple-600"><i class="ri-file-text-line text-2xl"></i></div>
+                            <span class="text-xs font-semibold text-abn-emerald bg-emerald-50 px-2 py-1 rounded-full">+18% this month</span>
+                        </div>
+                        <p class="text-slate-500 text-sm font-medium">Total Requests</p>
+                        <p class="text-2xl font-bold text-abn-navy mt-1">8,932</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-amber-50 text-amber-600"><i class="ri-money-dollar-circle-line text-2xl"></i></div>
+                            <span class="text-xs font-semibold text-abn-emerald bg-emerald-50 px-2 py-1 rounded-full">+22% this month</span>
+                        </div>
+                        <p class="text-slate-500 text-sm font-medium">Platform Revenue</p>
+                        <p class="text-2xl font-bold text-abn-navy mt-1">₦4.2M</p>
+                    </div>
+                </div>
+
+                <!-- Analytics Chart (CSS Only) -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <h2 class="text-lg font-bold text-abn-navy mb-6">Platform Growth (Last 6 Months)</h2>
+                    <div class="h-64 flex items-end justify-between gap-2 sm:gap-4 px-2">
+                        <div class="flex-1 flex flex-col items-center gap-2 group">
+                            <div class="w-full bg-slate-100 rounded-t-lg relative overflow-hidden" style="height: 100%;">
+                                <div class="absolute bottom-0 w-full bg-abn-emerald rounded-t-lg transition-all duration-500 group-hover:bg-emerald-600" style="height: 40%;"></div>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">May</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2 group">
+                            <div class="w-full bg-slate-100 rounded-t-lg relative overflow-hidden" style="height: 100%;">
+                                <div class="absolute bottom-0 w-full bg-abn-emerald rounded-t-lg transition-all duration-500 group-hover:bg-emerald-600" style="height: 55%;"></div>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">Jun</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2 group">
+                            <div class="w-full bg-slate-100 rounded-t-lg relative overflow-hidden" style="height: 100%;">
+                                <div class="absolute bottom-0 w-full bg-abn-emerald rounded-t-lg transition-all duration-500 group-hover:bg-emerald-600" style="height: 45%;"></div>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">Jul</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2 group">
+                            <div class="w-full bg-slate-100 rounded-t-lg relative overflow-hidden" style="height: 100%;">
+                                <div class="absolute bottom-0 w-full bg-abn-emerald rounded-t-lg transition-all duration-500 group-hover:bg-emerald-600" style="height: 70%;"></div>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">Aug</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2 group">
+                            <div class="w-full bg-slate-100 rounded-t-lg relative overflow-hidden" style="height: 100%;">
+                                <div class="absolute bottom-0 w-full bg-abn-emerald rounded-t-lg transition-all duration-500 group-hover:bg-emerald-600" style="height: 85%;"></div>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">Sep</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center gap-2 group">
+                            <div class="w-full bg-slate-100 rounded-t-lg relative overflow-hidden" style="height: 100%;">
+                                <div class="absolute bottom-0 w-full bg-abn-emerald rounded-t-lg transition-all duration-500 group-hover:bg-emerald-600" style="height: 95%;"></div>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">Oct</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Verifications Table -->
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                        <h2 class="text-lg font-bold text-abn-navy">Pending Artisan Verifications</h2>
+                        <button class="text-sm text-abn-emerald font-semibold hover:underline">View All</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 text-slate-500 text-sm font-semibold">
+                                <tr>
+                                    <th class="p-4">Artisan Name</th>
+                                    <th class="p-4">Profession</th>
+                                    <th class="p-4">Location</th>
+                                    <th class="p-4">Documents</th>
+                                    <th class="p-4">Date</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr class="hover:bg-slate-50/80 transition-colors">
+                                    <td class="p-4 font-medium text-abn-navy">Yusuf Ibrahim</td>
+                                    <td class="p-4 text-slate-600">Auto Mechanic</td>
+                                    <td class="p-4 text-slate-600">Kano, Kano State</td>
+                                    <td class="p-4"><span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-medium">ID, Certificate</span></td>
+                                    <td class="p-4 text-slate-600 text-sm">Oct 5, 2026</td>
+                                    <td class="p-4">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="View Details"><i class="ri-eye-line"></i></button>
+                                            <button class="p-2 text-slate-500 hover:text-abn-emerald hover:bg-emerald-50 rounded-lg transition-colors" title="Approve"><i class="ri-checkbox-circle-line"></i></button>
+                                            <button class="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Reject"><i class="ri-close-circle-line"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50/80 transition-colors">
+                                    <td class="p-4 font-medium text-abn-navy">Grace Ojo</td>
+                                    <td class="p-4 text-slate-600">Makeup Artist</td>
+                                    <td class="p-4 text-slate-600">Ikeja, Lagos State</td>
+                                    <td class="p-4"><span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-medium">ID, Portfolio</span></td>
+                                    <td class="p-4 text-slate-600 text-sm">Oct 5, 2026</td>
+                                    <td class="p-4">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="View Details"><i class="ri-eye-line"></i></button>
+                                            <button class="p-2 text-slate-500 hover:text-abn-emerald hover:bg-emerald-50 rounded-lg transition-colors" title="Approve"><i class="ri-checkbox-circle-line"></i></button>
+                                            <button class="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Reject"><i class="ri-close-circle-line"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleAdminSidebar() {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('admin-overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
