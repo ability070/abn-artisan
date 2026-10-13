@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Dashboard | ABN Artisan.ng</title>
+    <title>Artisan Dashboard | ABN Artisan.ng</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,6 +17,15 @@
             }
         }
     </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased">
 
@@ -34,20 +43,20 @@
                 <button class="lg:hidden text-slate-500" onclick="toggleSidebar()"><i class="ri-close-line text-2xl"></i></button>
             </div>
             <nav class="px-4 space-y-1 mt-4">
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-abn-emerald text-white shadow-lg shadow-emerald-600/20">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
                     <i class="ri-dashboard-line text-lg"></i> Dashboard
                 </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-search-line text-lg"></i> Find Artisans
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-abn-emerald text-white shadow-lg shadow-emerald-600/20">
+                    <i class="ri-user-settings-line text-lg"></i> My Profile
                 </a>
                 <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-time-line text-lg"></i> My Requests
+                    <i class="ri-briefcase-line text-lg"></i> Job Requests
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
+                    <i class="ri-wallet-3-line text-lg"></i> Earnings
                 </a>
                 <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
                     <i class="ri-message-3-line text-lg"></i> Messages
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-heart-line text-lg"></i> Saved Artisans
                 </a>
                 <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
                     <i class="ri-settings-4-line text-lg"></i> Settings
@@ -67,8 +76,8 @@
                         <i class="ri-menu-line text-2xl text-slate-600"></i>
                     </button>
                     <div>
-                        <h1 class="text-xl font-bold text-abn-navy">Welcome back, Amina!</h1>
-                        <p class="text-sm text-slate-500">Here's what's happening with your services today.</p>
+                        <h1 class="text-xl font-bold text-abn-navy">Welcome back, Chinedu!</h1>
+                        <p class="text-sm text-slate-500">Complete your profile to start receiving job requests.</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
@@ -76,84 +85,162 @@
                         <i class="ri-notification-3-line text-xl"></i>
                         <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
                     </button>
-                    <div class="w-10 h-10 bg-abn-emerald/10 rounded-full flex items-center justify-center text-abn-emerald font-bold border-2 border-white shadow-sm">
-                        AU
+                    <div class="w-10 h-10 bg-abn-emerald/10 rounded-full flex items-center justify-center text-abn-emerald font-bold border-2 border-white shadow-sm overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Profile" class="w-full h-full object-cover">
                     </div>
                 </div>
             </header>
 
-            <div class="p-6 lg:p-8 max-w-7xl mx-auto space-y-8">
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-50 text-blue-600"><i class="ri-time-line text-2xl"></i></div>
-                        <div><p class="text-slate-500 text-sm font-medium">Active Requests</p><p class="text-2xl font-bold text-abn-navy">2</p></div>
+            <div class="p-6 lg:p-8 max-w-5xl mx-auto space-y-8">
+                
+                <!-- Profile Completion Banner -->
+                <div class="bg-abn-navy text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <h2 class="text-xl font-bold mb-1">Complete Your Artisan Profile</h2>
+                        <p class="text-slate-300 text-sm max-w-md">A complete profile with photos and detailed services helps you get 3x more job requests from customers.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-emerald-50 text-abn-emerald"><i class="ri-checkbox-circle-line text-2xl"></i></div>
-                        <div><p class="text-slate-500 text-sm font-medium">Completed Jobs</p><p class="text-2xl font-bold text-abn-navy">14</p></div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-red-50 text-red-500"><i class="ri-heart-line text-2xl"></i></div>
-                        <div><p class="text-slate-500 text-sm font-medium">Saved Artisans</p><p class="text-2xl font-bold text-abn-navy">8</p></div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-amber-50 text-amber-500"><i class="ri-message-3-line text-2xl"></i></div>
-                        <div><p class="text-slate-500 text-sm font-medium">Pending Reviews</p><p class="text-2xl font-bold text-abn-navy">1</p></div>
+                    <div class="flex items-center gap-4 shrink-0">
+                        <div class="text-right">
+                            <span class="text-2xl font-bold text-abn-emerald">40%</span>
+                            <span class="text-sm text-slate-300 block">Completed</span>
+                        </div>
+                        <div class="w-16 h-16 relative">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                <path class="text-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+                                <path class="text-abn-emerald" stroke-dasharray="40, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Action Bar -->
-                <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-bold text-abn-navy">Recent Service Requests</h2>
-                    <button class="bg-abn-emerald hover:bg-emerald-700 text-white font-semibold py-2.5 px-5 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2 text-sm">
-                        <i class="ri-add-line"></i> New Request
-                    </button>
-                </div>
-
-                <!-- Requests Table -->
-                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-50 text-slate-500 text-sm font-semibold">
-                                <tr>
-                                    <th class="p-4">Service</th>
-                                    <th class="p-4">Artisan</th>
-                                    <th class="p-4">Date</th>
-                                    <th class="p-4">Budget</th>
-                                    <th class="p-4">Status</th>
-                                    <th class="p-4">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                <tr class="hover:bg-slate-50/80 transition-colors">
-                                    <td class="p-4 font-medium text-abn-navy">Generator Repair</td>
-                                    <td class="p-4 text-slate-600">Chinedu Okafor</td>
-                                    <td class="p-4 text-slate-600">Oct 4, 2026</td>
-                                    <td class="p-4 font-semibold text-abn-navy">₦15,000</td>
-                                    <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700">In Progress</span></td>
-                                    <td class="p-4"><button class="text-abn-emerald hover:text-emerald-700 font-semibold text-sm">View Details</button></td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/80 transition-colors">
-                                    <td class="p-4 font-medium text-abn-navy">Bathroom Tiling</td>
-                                    <td class="p-4 text-slate-600">Daniel Uche</td>
-                                    <td class="p-4 text-slate-600">Sep 28, 2026</td>
-                                    <td class="p-4 font-semibold text-abn-navy">₦45,000</td>
-                                    <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-abn-emerald">Completed</span></td>
-                                    <td class="p-4"><button class="text-abn-emerald hover:text-emerald-700 font-semibold text-sm">View Details</button></td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/80 transition-colors">
-                                    <td class="p-4 font-medium text-abn-navy">AC Servicing</td>
-                                    <td class="p-4 text-slate-600">Emeka Nwosu</td>
-                                    <td class="p-4 text-slate-600">Oct 10, 2026</td>
-                                    <td class="p-4 font-semibold text-abn-navy">₦10,000</td>
-                                    <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700">Pending</span></td>
-                                    <td class="p-4"><button class="text-abn-emerald hover:text-emerald-700 font-semibold text-sm">View Details</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <!-- Artisan Registration Form -->
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('✅ Profile saved and published successfully!');">
+                    
+                    <!-- Section 1: Profile Picture & Basic Info -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
+                            <i class="ri-user-smile-line text-abn-emerald"></i> Profile Picture & Basic Info
+                        </h3>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex flex-col items-center gap-3">
+                                <div class="w-32 h-32 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden relative group cursor-pointer hover:border-abn-emerald transition-colors">
+                                    <img id="profilePreview" src="" class="w-full h-full object-cover hidden">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" id="profileOverlay">
+                                        <i class="ri-camera-line text-white text-2xl"></i>
+                                    </div>
+                                    <div id="profilePlaceholder" class="text-center p-2">
+                                        <i class="ri-user-line text-3xl text-slate-400 mb-1"></i>
+                                        <p class="text-[10px] text-slate-500 font-medium">Upload Photo</p>
+                                    </div>
+                                    <input type="file" id="profilePic" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(this, 'profilePreview', 'profilePlaceholder', 'profileOverlay')">
+                                </div>
+                            </div>
+                            <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name</label>
+                                    <input type="text" value="Chinedu Okafor" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Professional Title</label>
+                                    <input type="text" value="Master Electrician" placeholder="e.g., Master Electrician" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                    <!-- Section 2: About & Services -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
+                            <i class="ri-briefcase-line text-abn-emerald"></i> About & Services
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">About You</label>
+                                <textarea rows="4" placeholder="Describe your experience, skills, and what makes you the best choice for the job..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 resize-none transition-all"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Services Offered</label>
+                                <div class="flex gap-2 mb-3">
+                                    <input type="text" id="serviceInput" placeholder="e.g., House Wiring, Leak Repair" class="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                    <button type="button" onclick="addService()" class="bg-abn-navy hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-1">
+                                        <i class="ri-add-line"></i> Add
+                                    </button>
+                                </div>
+                                <div id="servicesList" class="flex flex-wrap gap-2">
+                                    <span class="bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20 animate-fade-in">
+                                        Generator Repair <button type="button" onclick="this.parentElement.remove()" class="hover:text-red-500 transition-colors"><i class="ri-close-line"></i></button>
+                                    </span>
+                                    <span class="bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20 animate-fade-in">
+                                        Solar Installation <button type="button" onclick="this.parentElement.remove()" class="hover:text-red-500 transition-colors"><i class="ri-close-line"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Location -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
+                            <i class="ri-map-pin-line text-abn-emerald"></i> Service Location
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">State</label>
+                                <select class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                    <option>Rivers</option>
+                                    <option>Lagos</option>
+                                    <option>Abuja (FCT)</option>
+                                    <option>Ogun</option>
+                                    <option>Anambra</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">City / Local Government</label>
+                                <input type="text" value="Port Harcourt" placeholder="e.g., Lekki, Ikeja, Port Harcourt" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Portfolio / Pictures of Work -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <h3 class="text-lg font-bold text-abn-navy mb-2 flex items-center gap-2">
+                            <i class="ri-image-line text-abn-emerald"></i> Portfolio (Pictures of Your Work)
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-4">Upload up to 6 high-quality images of your previous work to build trust with customers.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="portfolioGrid">
+                            <!-- Upload Box -->
+                            <div class="aspect-square rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center bg-slate-50 hover:bg-slate-100 hover:border-abn-emerald transition-all cursor-pointer relative group">
+                                <i class="ri-add-circle-line text-3xl text-slate-400 mb-2 group-hover:text-abn-emerald transition-colors"></i>
+                                <span class="text-xs text-slate-500 font-medium">Add Photo</span>
+                                <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewPortfolio(this)">
+                            </div>
+                            
+                            <!-- Pre-filled Example 1 -->
+                            <div class="aspect-square rounded-xl border border-slate-200 overflow-hidden relative group bg-slate-100">
+                                <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=400&h=400&fit=crop" class="w-full h-full object-cover">
+                                <button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600" onclick="this.parentElement.remove()">
+                                    <i class="ri-close-line text-sm"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Pre-filled Example 2 -->
+                            <div class="aspect-square rounded-xl border border-slate-200 overflow-hidden relative group bg-slate-100">
+                                <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=400&fit=crop" class="w-full h-full object-cover">
+                                <button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600" onclick="this.parentElement.remove()">
+                                    <i class="ri-close-line text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="flex flex-col sm:flex-row justify-end gap-4 pt-4 pb-8">
+                        <button type="button" class="px-6 py-3 rounded-xl font-semibold text-slate-600 hover:bg-slate-100 transition-colors border border-slate-200">Save as Draft</button>
+                        <button type="submit" class="bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center justify-center gap-2">
+                            <i class="ri-save-line text-lg"></i> Save & Publish Profile
+                        </button>
+                    </div>
+                </form>
             </div>
         </main>
     </div>
@@ -164,6 +251,84 @@
             const overlay = document.getElementById('sidebar-overlay');
             sidebar.classList.toggle('-translate-x-full');
             overlay.classList.toggle('hidden');
+        }
+
+        // Profile Picture Preview
+        function previewImage(input, previewId, placeholderId, overlayId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(previewId);
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    document.getElementById(placeholderId).classList.add('hidden');
+                    document.getElementById(overlayId).classList.remove('opacity-0'); // Keep overlay visible to indicate it can be changed
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Add Service Tag
+        function addService() {
+            const input = document.getElementById('serviceInput');
+            const value = input.value.trim();
+            if (value) {
+                const list = document.getElementById('servicesList');
+                const span = document.createElement('span');
+                span.className = 'bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20 animate-fade-in';
+                span.innerHTML = `${value} <button type="button" onclick="this.parentElement.remove()" class="hover:text-red-500 transition-colors"><i class="ri-close-line"></i></button>`;
+                list.appendChild(span);
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        // Allow Enter key to add service
+        document.getElementById('serviceInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addService();
+            }
+        });
+
+        // Portfolio Image Preview
+        function previewPortfolio(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const parent = input.parentElement;
+                    // Transform the dashed upload box into an image preview box
+                    parent.classList.remove('border-dashed', 'border-slate-300', 'bg-slate-50', 'hover:bg-slate-100');
+                    parent.classList.add('border', 'border-slate-200', 'overflow-hidden', 'relative', 'group', 'bg-slate-100');
+                    parent.innerHTML = `
+                        <img src="${e.target.result}" class="w-full h-full object-cover">
+                        <button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600" onclick="resetPortfolioBox(this)">
+                            <i class="ri-close-line text-sm"></i>
+                        </button>
+                    `;
+                    
+                    // Add a new empty upload box at the end of the grid
+                    addNewUploadBox();
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function addNewUploadBox() {
+            const grid = document.getElementById('portfolioGrid');
+            const newBox = document.createElement('div');
+            newBox.className = 'aspect-square rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center bg-slate-50 hover:bg-slate-100 hover:border-abn-emerald transition-all cursor-pointer relative group';
+            newBox.innerHTML = `
+                <i class="ri-add-circle-line text-3xl text-slate-400 mb-2 group-hover:text-abn-emerald transition-colors"></i>
+                <span class="text-xs text-slate-500 font-medium">Add Photo</span>
+                <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewPortfolio(this)">
+            `;
+            grid.appendChild(newBox);
+        }
+
+        function resetPortfolioBox(btn) {
+            const parent = btn.parentElement;
+            parent.remove(); // Simply remove the image box, the last box in the grid will always be the upload box
         }
     </script>
 </body>

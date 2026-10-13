@@ -35,6 +35,17 @@
             box-shadow: 0 25px 50px -12px rgb(15 23 42 / 0.25);
             transform: translateY(-0.25rem);
         }
+        /* Custom scrollbar for chat */
+        .chat-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased">
@@ -44,9 +55,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-abn-emerald rounded-xl flex items-center justify-center text-white font-bold text-xl">A</div>
+                    <div class="w-10 h-10 bg-abn-emerald rounded-xl flex items-center justify-center text-white font-bold text-xl">ABN</div>
                     <div class="flex flex-col">
-                        <span class="font-bold text-xl text-abn-navy leading-none">ABN Artisan<span class="text-abn-emerald">.ng</span></span>
+                        <span class="font-bold text-xl text-abn-navy leading-none">Artisan<span class="text-abn-emerald">.ng</span></span>
                         <span class="text-[10px] text-slate-500 font-medium tracking-wide">by ABN Technologies & Logistics</span>
                     </div>
                 </a>
@@ -58,7 +69,6 @@
                     <a href="#" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">How It Works</a>
                 </div>
 
-                <!-- Updated Navigation Button -->
                 <div class="hidden md:flex items-center gap-4">
                     <a href="#artisan-register" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2.5 px-6 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2">
                         <i class="ri-briefcase-4-line"></i> Are you an Artisan?
@@ -76,7 +86,6 @@
             <a href="index.html" class="block text-slate-700 font-medium py-2">Home</a>
             <a href="#" class="block text-slate-700 font-medium py-2">Find an Artisan</a>
             <a href="#" class="block text-slate-700 font-medium py-2">Categories</a>
-            <!-- Updated Mobile Navigation Button -->
             <a href="#artisan-register" class="block w-full text-center bg-abn-navy text-white font-semibold py-3 rounded-xl mt-4 flex items-center justify-center gap-2">
                 <i class="ri-briefcase-4-line"></i> Are you an Artisan?
             </a>
@@ -116,13 +125,13 @@
                 <div class="flex flex-wrap gap-6 mt-10 text-slate-300 text-sm font-medium">
                     <div class="flex items-center gap-2"><i class="ri-checkbox-circle-fill text-abn-emerald text-lg"></i> Verified Artisans</div>
                     <div class="flex items-center gap-2"><i class="ri-checkbox-circle-fill text-abn-emerald text-lg"></i> Transparent Profiles</div>
-                    <div class="flex items-center gap-2"><i class="ri-checkbox-circle-fill text-abn-emerald text-lg"></i> Customer Reviews</div>
+                    <div class="flex items-center gap-2"><i class="ri-checkbox-circle-fill text-abn-emerald text-lg"></i> In-App Messaging</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Categories Section (Expanded & Cleaned) -->
+    <!-- Categories Section -->
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
@@ -130,7 +139,6 @@
                 <p class="text-slate-600 max-w-2xl mx-auto">From home repairs to professional services, find the right expert for your needs.</p>
             </div>
             
-            <!-- Expanded Grid: 16 Services, No Fake Numbers -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                 <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
                     <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🔧</div>
@@ -163,38 +171,6 @@
                 <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
                     <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">⚙️</div>
                     <h3 class="font-bold text-abn-navy mb-1">Generator Repairs</h3>
-                </a>
-                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">❄️</div>
-                    <h3 class="font-bold text-abn-navy mb-1">AC & Refrigeration</h3>
-                </a>
-                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">📱</div>
-                    <h3 class="font-bold text-abn-navy mb-1">Phone Repairs</h3>
-                </a>
-                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🚗</div>
-                    <h3 class="font-bold text-abn-navy mb-1">Auto Mechanics</h3>
-                </a>
-                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">👗</div>
-                    <h3 class="font-bold text-abn-navy mb-1">Fashion & Tailoring</h3>
-                </a>
-                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">💇‍♀️</div>
-                    <h3 class="font-bold text-abn-navy mb-1">Hair & Beauty</h3>
-                </a>
-                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🍲</div>
-                    <h3 class="font-bold text-abn-navy mb-1">Catering</h3>
-                </a>
-                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">📸</div>
-                    <h3 class="font-bold text-abn-navy mb-1">Photography</h3>
-                </a>
-                <a href="#" class="card p-6 flex flex-col items-center text-center group cursor-pointer">
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">💻</div>
-                    <h3 class="font-bold text-abn-navy mb-1">Web Development</h3>
                 </a>
             </div>
             
@@ -334,36 +310,14 @@
                             <h3 class="text-lg font-bold text-abn-navy mb-3">Services Offered</h3>
                             <div id="modalServices" class="flex flex-wrap gap-2"></div>
                         </div>
+                        
+                        <!-- NEW: Direct Contact / Chat Section -->
                         <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 text-center">
-                            <div id="contactLocked">
-                                <i class="ri-lock-2-line text-3xl text-slate-400 mb-2"></i>
-                                <h3 class="font-bold text-abn-navy mb-1">Want to contact this artisan?</h3>
-                                <p class="text-sm text-slate-500 mb-4">Pay a one-time fee of <span class="font-bold text-abn-emerald" id="modalContactFee"></span> to unlock their direct phone number and email.</p>
-                                <button onclick="openPaymentModal()" class="w-full bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-                                    <i class="ri-unlock-line"></i> Contact Artisan
-                                </button>
-                            </div>
-                            <div id="contactUnlocked" class="hidden">
-                                <div class="flex items-center justify-center gap-2 text-abn-emerald font-bold mb-4">
-                                    <i class="ri-checkbox-circle-fill text-xl"></i> Contact Details Unlocked!
-                                </div>
-                                <div class="space-y-3 text-left">
-                                    <div class="flex items-center gap-3 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-                                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center shrink-0"><i class="ri-phone-line text-xl"></i></div>
-                                        <div>
-                                            <p class="text-xs text-slate-500 font-medium uppercase tracking-wide">Phone Number</p>
-                                            <p id="unlockedPhone" class="font-bold text-abn-navy text-lg"></p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-3 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-                                        <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center shrink-0"><i class="ri-mail-line text-xl"></i></div>
-                                        <div>
-                                            <p class="text-xs text-slate-500 font-medium uppercase tracking-wide">Email Address</p>
-                                            <p id="unlockedEmail" class="font-bold text-abn-navy"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h3 class="font-bold text-abn-navy mb-2">Ready to get started?</h3>
+                            <p class="text-sm text-slate-500 mb-4">Send a message directly to <span id="chatArtisanName" class="font-semibold text-abn-navy"></span> to discuss your project details, pricing, and availability.</p>
+                            <button onclick="openChatModal()" class="w-full bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                                <i class="ri-chat-1-line text-xl"></i> Contact Artisan
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -372,41 +326,46 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- MODAL 2: PAYMENT MODAL                     -->
+    <!-- MODAL 2: IN-APP CHAT MODAL                 -->
     <!-- ========================================== -->
-    <div id="paymentModal" class="fixed inset-0 z-[70] hidden overflow-y-auto">
-        <div class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" onclick="closePaymentModal()"></div>
-        <div class="flex min-h-full items-center justify-center p-4">
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:w-full sm:max-w-md p-6 sm:p-8">
-                <button onclick="closePaymentModal()" class="absolute top-4 right-4 p-2 hover:bg-slate-100 rounded-full transition-colors">
-                    <i class="ri-close-line text-xl text-slate-500"></i>
-                </button>
-                <div class="text-center mb-6">
-                    <div class="w-16 h-16 bg-abn-emerald/10 text-abn-emerald rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="ri-secure-payment-line text-3xl"></i>
+    <div id="chatModal" class="fixed inset-0 z-[70] hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm transition-opacity" onclick="closeChatModal()"></div>
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col h-[600px] max-h-[90vh]">
+                
+                <!-- Chat Header -->
+                <div class="bg-abn-navy p-4 flex items-center justify-between shrink-0">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <img id="chatArtisanImage" src="" alt="Artisan" class="w-10 h-10 rounded-full object-cover border-2 border-abn-emerald">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-abn-navy rounded-full"></div>
+                        </div>
+                        <div>
+                            <h3 id="chatArtisanNameHeader" class="font-bold text-white text-sm"></h3>
+                            <p class="text-xs text-slate-300 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block"></span> Online
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-abn-navy mb-2">Unlock Contact Details</h3>
-                    <p class="text-slate-500 text-sm">You are about to pay a one-time fee to contact <span id="payArtisanName" class="font-bold text-abn-navy"></span>.</p>
+                    <button onclick="closeChatModal()" class="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition-colors">
+                        <i class="ri-close-line text-xl"></i>
+                    </button>
                 </div>
-                <div class="bg-slate-50 rounded-xl p-5 mb-6 border border-slate-200">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-slate-600">Contact Fee</span>
-                        <span id="payAmount" class="font-bold text-abn-navy"></span>
-                    </div>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-200">
-                        <span class="font-bold text-abn-navy">Total</span>
-                        <span id="payTotal" class="font-bold text-abn-emerald text-xl"></span>
-                    </div>
+                
+                <!-- Chat Messages Area -->
+                <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 chat-scroll">
+                    <!-- Messages will be injected here by JS -->
                 </div>
-                <button id="payButton" onclick="simulatePayment()" class="w-full bg-abn-navy hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
-                    <i class="ri-bank-card-line text-lg"></i> Pay Now
-                </button>
-                <div id="paymentProcessing" class="hidden w-full bg-slate-100 text-slate-600 font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2">
-                    <i class="ri-loader-4-line animate-spin text-xl"></i> Processing Payment...
+                
+                <!-- Chat Input Area -->
+                <div class="p-4 bg-white border-t border-slate-200 shrink-0">
+                    <form id="chatForm" onsubmit="sendMessage(event)" class="flex gap-2">
+                        <input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 text-sm" autocomplete="off">
+                        <button type="submit" class="bg-abn-emerald hover:bg-emerald-700 text-white p-3 rounded-xl transition-colors flex items-center justify-center shrink-0">
+                            <i class="ri-send-plane-fill text-lg"></i>
+                        </button>
+                    </form>
                 </div>
-                <p class="text-xs text-center text-slate-400 mt-5 flex items-center justify-center gap-1">
-                    <i class="ri-shield-check-line text-green-600"></i> Secured by Paystack
-                </p>
             </div>
         </div>
     </div>
@@ -430,10 +389,7 @@
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
                 verified: true,
                 bio: "Certified electrical engineer with over 8 years of experience specializing in residential wiring, generator installation, and solar power setups. I prioritize safety, efficiency, and clean workmanship in every job.",
-                services: ["House Wiring", "Generator Repair", "Solar Installation", "Fault Finding"],
-                phone: "0803 456 7890",
-                email: "chinedu.electric@abnartisan.ng",
-                contactFee: 1000
+                services: ["House Wiring", "Generator Repair", "Solar Installation", "Fault Finding"]
             },
             {
                 id: 2,
@@ -445,10 +401,7 @@
                 image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
                 verified: true,
                 bio: "Expert in pipe fitting, leak detection, and bathroom renovations. Fast response time guaranteed with a 100% satisfaction rate on all completed plumbing jobs across Lagos.",
-                services: ["Leak Repair", "Pipe Installation", "Bathroom Renovation", "Water Heater Installation"],
-                phone: "0806 123 4567",
-                email: "emeka.plumber@abnartisan.ng",
-                contactFee: 1000
+                services: ["Leak Repair", "Pipe Installation", "Bathroom Renovation", "Water Heater Installation"]
             }
         ];
 
@@ -465,7 +418,6 @@
             document.getElementById('modalReviews').textContent = currentArtisan.reviews;
             document.getElementById('modalLocation').textContent = currentArtisan.location;
             document.getElementById('modalBio').textContent = currentArtisan.bio;
-            document.getElementById('modalContactFee').textContent = '₦' + currentArtisan.contactFee.toLocaleString();
             
             const verifiedBadge = document.getElementById('modalVerified');
             currentArtisan.verified ? verifiedBadge.classList.remove('hidden') : verifiedBadge.classList.add('hidden');
@@ -479,8 +431,10 @@
                 servicesContainer.appendChild(span);
             });
 
-            document.getElementById('contactLocked').classList.remove('hidden');
-            document.getElementById('contactUnlocked').classList.add('hidden');
+            // Pre-fill chat modal data
+            document.getElementById('chatArtisanName').textContent = currentArtisan.name;
+            document.getElementById('chatArtisanNameHeader').textContent = currentArtisan.name;
+            document.getElementById('chatArtisanImage').src = currentArtisan.image;
 
             document.getElementById('profileModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -491,41 +445,65 @@
             document.body.style.overflow = 'auto';
         }
 
-        function openPaymentModal() {
-            if (!currentArtisan) return;
-            document.getElementById('payArtisanName').textContent = currentArtisan.name;
-            document.getElementById('payAmount').textContent = '₦' + currentArtisan.contactFee.toLocaleString();
-            document.getElementById('payTotal').textContent = '₦' + currentArtisan.contactFee.toLocaleString();
+        function openChatModal() {
+            document.getElementById('chatModal').classList.remove('hidden');
             
-            document.getElementById('payButton').classList.remove('hidden');
-            document.getElementById('paymentProcessing').classList.add('hidden');
+            // Reset chat with a welcome message
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="flex gap-3">
+                    <img src="${currentArtisan.image}" alt="Artisan" class="w-8 h-8 rounded-full object-cover shrink-0 mt-1">
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 max-w-[80%]">
+                        <p class="text-sm text-slate-700">Hello! 👋 I'm ${currentArtisan.name}. How can I help you with your project today?</p>
+                        <span class="text-[10px] text-slate-400 mt-1 block">Just now</span>
+                    </div>
+                </div>
+            `;
             
-            document.getElementById('paymentModal').classList.remove('hidden');
+            document.getElementById('chatInput').focus();
         }
 
-        function closePaymentModal() {
-            document.getElementById('paymentModal').classList.add('hidden');
+        function closeChatModal() {
+            document.getElementById('chatModal').classList.add('hidden');
         }
 
-        function simulatePayment() {
-            const payBtn = document.getElementById('payButton');
-            const processing = document.getElementById('paymentProcessing');
-            
-            payBtn.classList.add('hidden');
-            processing.classList.remove('hidden');
+        function sendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
 
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Add user message
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'flex gap-3 justify-end';
+            userMsgDiv.innerHTML = `
+                <div class="bg-abn-emerald text-white p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%]">
+                    <p class="text-sm">${message}</p>
+                    <span class="text-[10px] text-emerald-100 mt-1 block text-right">Just now</span>
+                </div>
+            `;
+            chatMessages.appendChild(userMsgDiv);
+            input.value = '';
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Simulate artisan typing and reply
             setTimeout(() => {
-                processing.classList.add('hidden');
-                payBtn.classList.remove('hidden');
-                closePaymentModal();
-                
-                document.getElementById('contactLocked').classList.add('hidden');
-                document.getElementById('contactUnlocked').classList.remove('hidden');
-                document.getElementById('unlockedPhone').textContent = currentArtisan.phone;
-                document.getElementById('unlockedEmail').textContent = currentArtisan.email;
-                
-                alert("✅ Payment Successful!\n\nContact details have been unlocked.");
-            }, 2000);
+                const artisanMsgDiv = document.createElement('div');
+                artisanMsgDiv.className = 'flex gap-3';
+                artisanMsgDiv.innerHTML = `
+                    <img src="${currentArtisan.image}" alt="Artisan" class="w-8 h-8 rounded-full object-cover shrink-0 mt-1">
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 max-w-[80%]">
+                        <p class="text-sm text-slate-700">Thanks for reaching out! I'll review your request and get back to you shortly with more details.</p>
+                        <span class="text-[10px] text-slate-400 mt-1 block">Just now</span>
+                    </div>
+                `;
+                chatMessages.appendChild(artisanMsgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1500);
         }
     </script>
 </body>
