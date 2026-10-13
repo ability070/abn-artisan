@@ -36,16 +36,9 @@
             transform: translateY(-0.25rem);
         }
         /* Custom scrollbar for chat */
-        .chat-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .chat-scroll::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .chat-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
+        .chat-scroll::-webkit-scrollbar { width: 6px; }
+        .chat-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+        .chat-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased">
@@ -64,15 +57,15 @@
                 
                 <div class="hidden md:flex items-center gap-8">
                     <a href="index.html" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">Home</a>
-                    <a href="#" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">Find an Artisan</a>
+                    <a href="#artisans-section" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">Find an Artisan</a>
                     <a href="#" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">Categories</a>
-                    <a href="#" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">How It Works</a>
                 </div>
 
-                <div class="hidden md:flex items-center gap-4">
-                    <a href="#artisan-register" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2.5 px-6 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2">
+                <!-- Dynamic Auth Buttons -->
+                <div class="hidden md:flex items-center gap-4" id="navAuthButtons">
+                    <button onclick="openAuthModal('artisan')" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2.5 px-6 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2">
                         <i class="ri-briefcase-4-line"></i> Are you an Artisan?
-                    </a>
+                    </button>
                 </div>
 
                 <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600">
@@ -84,11 +77,15 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-6 space-y-4">
             <a href="index.html" class="block text-slate-700 font-medium py-2">Home</a>
-            <a href="#" class="block text-slate-700 font-medium py-2">Find an Artisan</a>
+            <a href="#artisans-section" class="block text-slate-700 font-medium py-2">Find an Artisan</a>
             <a href="#" class="block text-slate-700 font-medium py-2">Categories</a>
-            <a href="#artisan-register" class="block w-full text-center bg-abn-navy text-white font-semibold py-3 rounded-xl mt-4 flex items-center justify-center gap-2">
+            <button onclick="openAuthModal('artisan')" class="block w-full text-center bg-abn-navy text-white font-semibold py-3 rounded-xl mt-4 flex items-center justify-center gap-2">
                 <i class="ri-briefcase-4-line"></i> Are you an Artisan?
-            </a>
+            </button>
+            <div id="mobileAuthButtons" class="hidden pt-4 border-t border-slate-100 space-y-2">
+                <a href="user-dashboard.html" class="block text-center text-abn-emerald font-semibold py-2">Go to Dashboard</a>
+                <button onclick="logout()" class="block w-full text-center text-red-600 font-semibold py-2">Log Out</button>
+            </div>
         </div>
     </nav>
 
@@ -111,13 +108,13 @@
                 <div class="bg-white p-4 rounded-2xl shadow-2xl flex flex-col md:flex-row gap-4 max-w-4xl">
                     <div class="flex-1 relative">
                         <i class="ri-search-line absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl"></i>
-                        <input type="text" placeholder="What service? (e.g., Plumber)" class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 font-medium">
+                        <input type="text" id="searchService" placeholder="What service? (e.g., Plumber)" class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 font-medium">
                     </div>
                     <div class="flex-1 relative">
                         <i class="ri-map-pin-line absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl"></i>
                         <input type="text" placeholder="Where? (e.g., Port Harcourt)" class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 font-medium">
                     </div>
-                    <button class="bg-abn-emerald hover:bg-emerald-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 whitespace-nowrap">
+                    <button onclick="filterArtisans()" class="bg-abn-emerald hover:bg-emerald-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 whitespace-nowrap">
                         Find an Artisan
                     </button>
                 </div>
@@ -183,7 +180,7 @@
     </section>
 
     <!-- Featured Artisans -->
-    <section class="py-20 bg-slate-50">
+    <section id="artisans-section" class="py-20 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-end mb-12">
                 <div>
@@ -193,64 +190,8 @@
                 <a href="#" class="hidden md:flex items-center gap-2 text-abn-emerald font-bold hover:gap-3 transition-all">View All <i class="ri-arrow-right-line"></i></a>
             </div>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Artisan Card 1 -->
-                <div class="card overflow-hidden group">
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Chinedu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute top-3 right-3 bg-abn-emerald text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                            <i class="ri-shield-check-fill"></i> Verified
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg text-abn-navy">Chinedu Okafor</h3>
-                        <p class="text-abn-emerald font-medium text-sm mb-2">Master Electrician</p>
-                        <div class="flex items-center gap-1 text-slate-500 text-sm mb-4">
-                            <i class="ri-map-pin-line"></i> Port Harcourt, Rivers
-                        </div>
-                        <div class="flex items-center gap-4 mb-4 text-sm">
-                            <div class="flex items-center gap-1 text-abn-gold font-bold"><i class="ri-star-fill"></i> 4.9</div>
-                            <span class="text-slate-400">|</span>
-                            <span class="text-slate-600">128 reviews</span>
-                        </div>
-                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                            <div>
-                                <span class="text-xs text-slate-500">From</span>
-                                <p class="font-bold text-abn-navy">₦10,000</p>
-                            </div>
-                            <button onclick="openProfileModal(1)" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors">View Profile</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Artisan Card 2 -->
-                <div class="card overflow-hidden group">
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop" alt="Emeka" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute top-3 right-3 bg-abn-emerald text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                            <i class="ri-shield-check-fill"></i> Verified
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg text-abn-navy">Emeka Nwosu</h3>
-                        <p class="text-abn-emerald font-medium text-sm mb-2">Professional Plumber</p>
-                        <div class="flex items-center gap-1 text-slate-500 text-sm mb-4">
-                            <i class="ri-map-pin-line"></i> Lekki, Lagos
-                        </div>
-                        <div class="flex items-center gap-4 mb-4 text-sm">
-                            <div class="flex items-center gap-1 text-abn-gold font-bold"><i class="ri-star-fill"></i> 4.8</div>
-                            <span class="text-slate-400">|</span>
-                            <span class="text-slate-600">94 reviews</span>
-                        </div>
-                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                            <div>
-                                <span class="text-xs text-slate-500">From</span>
-                                <p class="font-bold text-abn-navy">₦8,000</p>
-                            </div>
-                            <button onclick="openProfileModal(2)" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors">View Profile</button>
-                        </div>
-                    </div>
-                </div>
+            <div id="artisansGrid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Dynamically populated by JS -->
             </div>
         </div>
     </section>
@@ -268,6 +209,66 @@
             </div>
         </div>
     </footer>
+
+    <!-- ========================================== -->
+    <!-- MODAL: AUTH (LOGIN / REGISTER)             -->
+    <!-- ========================================== -->
+    <div id="authModal" class="fixed inset-0 z-[80] hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm transition-opacity" onclick="closeAuthModal()"></div>
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:w-full sm:max-w-md p-8">
+                <button onclick="closeAuthModal()" class="absolute top-4 right-4 p-2 hover:bg-slate-100 rounded-full transition-colors">
+                    <i class="ri-close-line text-xl text-slate-500"></i>
+                </button>
+                
+                <div class="flex gap-4 mb-6 border-b border-slate-200">
+                    <button onclick="switchAuthTab('login')" id="tabLogin" class="pb-2 border-b-2 border-abn-emerald text-abn-emerald font-bold w-1/2 text-center transition-colors">Login</button>
+                    <button onclick="switchAuthTab('register')" id="tabRegister" class="pb-2 border-b-2 border-transparent text-slate-500 font-medium w-1/2 text-center hover:text-slate-700 transition-colors">Create Account</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Email Address</label>
+                        <input type="email" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all" placeholder="you@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Password</label>
+                        <input type="password" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="w-full bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                        Log In to Dashboard
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name</label>
+                        <input type="text" id="regName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all" placeholder="John Doe">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Email Address</label>
+                        <input type="email" id="regEmail" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all" placeholder="you@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Password</label>
+                        <input type="password" id="regPassword" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all" placeholder="Create a strong password">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">I am a...</label>
+                        <select id="regRole" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                            <option value="artisan">Artisan (Service Provider)</option>
+                            <option value="customer">Customer (Looking for services)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-abn-navy hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- ========================================== -->
     <!-- MODAL 1: ARTISAN PROFILE MODAL             -->
@@ -311,7 +312,6 @@
                             <div id="modalServices" class="flex flex-wrap gap-2"></div>
                         </div>
                         
-                        <!-- NEW: Direct Contact / Chat Section -->
                         <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 text-center">
                             <h3 class="font-bold text-abn-navy mb-2">Ready to get started?</h3>
                             <p class="text-sm text-slate-500 mb-4">Send a message directly to <span id="chatArtisanName" class="font-semibold text-abn-navy"></span> to discuss your project details, pricing, and availability.</p>
@@ -332,8 +332,6 @@
         <div class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm transition-opacity" onclick="closeChatModal()"></div>
         <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col h-[600px] max-h-[90vh]">
-                
-                <!-- Chat Header -->
                 <div class="bg-abn-navy p-4 flex items-center justify-between shrink-0">
                     <div class="flex items-center gap-3">
                         <div class="relative">
@@ -352,12 +350,8 @@
                     </button>
                 </div>
                 
-                <!-- Chat Messages Area -->
-                <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 chat-scroll">
-                    <!-- Messages will be injected here by JS -->
-                </div>
+                <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 chat-scroll"></div>
                 
-                <!-- Chat Input Area -->
                 <div class="p-4 bg-white border-t border-slate-200 shrink-0">
                     <form id="chatForm" onsubmit="sendMessage(event)" class="flex gap-2">
                         <input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 text-sm" autocomplete="off">
@@ -372,41 +366,156 @@
 
     <!-- Vanilla JS Logic -->
     <script>
+        // --- 1. UI & Navigation Logic ---
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
+        // --- 2. Auth Modal Logic ---
+        let authRolePreference = 'artisan';
+
+        function openAuthModal(role = 'artisan') {
+            authRolePreference = role;
+            document.getElementById('authModal').classList.remove('hidden');
+            if (role === 'artisan') {
+                switchAuthTab('register');
+                document.getElementById('regRole').value = 'artisan';
+            } else {
+                switchAuthTab('login');
+            }
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                tabLogin.classList.add('border-abn-emerald', 'text-abn-emerald', 'font-bold');
+                tabLogin.classList.remove('border-transparent', 'text-slate-500', 'font-medium');
+                tabRegister.classList.remove('border-abn-emerald', 'text-abn-emerald', 'font-bold');
+                tabRegister.classList.add('border-transparent', 'text-slate-500', 'font-medium');
+            } else {
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                tabRegister.classList.add('border-abn-emerald', 'text-abn-emerald', 'font-bold');
+                tabRegister.classList.remove('border-transparent', 'text-slate-500', 'font-medium');
+                tabLogin.classList.remove('border-abn-emerald', 'text-abn-emerald', 'font-bold');
+                tabLogin.classList.add('border-transparent', 'text-slate-500', 'font-medium');
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const role = document.getElementById('regRole').value;
+            
+            // Simulate saving user to localStorage
+            const user = { name, email, role, id: Date.now() };
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            // Redirect based on role
+            if (role === 'artisan') {
+                window.location.href = 'user-dashboard.html';
+            } else {
+                window.location.href = 'customer-dashboard.html';
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            // Simulate login (in a real app, verify credentials against a database)
+            const mockUser = { name: "Demo Artisan", email: "demo@abnartisan.ng", role: authRolePreference, id: 999 };
+            localStorage.setItem('currentUser', JSON.stringify(mockUser));
+            
+            if (authRolePreference === 'artisan') {
+                window.location.href = 'artisan-dashboard.html';
+            } else {
+                window.location.href = 'customer-dashboard.html';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.reload();
+        }
+
+        function checkAuthState() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const navAuth = document.getElementById('navAuthButtons');
+            const mobileAuth = document.getElementById('mobileAuthButtons');
+            
+            if (user) {
+                const dashboardLink = user.role === 'artisan' ? 'artisan-dashboard.html' : 'customer-dashboard.html';
+                navAuth.innerHTML = `
+                    <a href="${dashboardLink}" class="text-slate-600 hover:text-abn-emerald font-medium transition-colors">Dashboard</a>
+                    <button onclick="logout()" class="text-red-600 hover:text-red-700 font-semibold transition-colors">Log Out</button>
+                `;
+                mobileAuth.classList.remove('hidden');
+            }
+        }
+
+        // --- 3. Artisan Data & Rendering ---
         const artisans = [
             {
-                id: 1,
-                name: "Chinedu Okafor",
-                title: "Master Electrician",
-                location: "Port Harcourt, Rivers State",
-                rating: 4.9,
-                reviews: 128,
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-                verified: true,
-                bio: "Certified electrical engineer with over 8 years of experience specializing in residential wiring, generator installation, and solar power setups. I prioritize safety, efficiency, and clean workmanship in every job.",
+                id: 1, name: "Chinedu Okafor", title: "Master Electrician", location: "Port Harcourt, Rivers State",
+                rating: 4.9, reviews: 128, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+                verified: true, bio: "Certified electrical engineer with over 8 years of experience specializing in residential wiring, generator installation, and solar power setups.",
                 services: ["House Wiring", "Generator Repair", "Solar Installation", "Fault Finding"]
             },
             {
-                id: 2,
-                name: "Emeka Nwosu",
-                title: "Professional Plumber",
-                location: "Lekki, Lagos State",
-                rating: 4.8,
-                reviews: 94,
-                image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
-                verified: true,
-                bio: "Expert in pipe fitting, leak detection, and bathroom renovations. Fast response time guaranteed with a 100% satisfaction rate on all completed plumbing jobs across Lagos.",
+                id: 2, name: "Emeka Nwosu", title: "Professional Plumber", location: "Lekki, Lagos State",
+                rating: 4.8, reviews: 94, image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
+                verified: true, bio: "Expert in pipe fitting, leak detection, and bathroom renovations. Fast response time guaranteed.",
                 services: ["Leak Repair", "Pipe Installation", "Bathroom Renovation", "Water Heater Installation"]
             }
         ];
 
         let currentArtisan = null;
 
+        function renderArtisans(list) {
+            const container = document.getElementById('artisansGrid');
+            container.innerHTML = list.map(a => `
+                <div class="card overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${a.image}" alt="${a.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        ${a.verified ? `<div class="absolute top-3 right-3 bg-abn-emerald text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-lg"><i class="ri-shield-check-fill"></i> Verified</div>` : ''}
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg text-abn-navy">${a.name}</h3>
+                        <p class="text-abn-emerald font-medium text-sm mb-2">${a.title}</p>
+                        <div class="flex items-center gap-1 text-slate-500 text-sm mb-4"><i class="ri-map-pin-line"></i> ${a.location}</div>
+                        <div class="flex items-center gap-4 mb-4 text-sm">
+                            <div class="flex items-center gap-1 text-abn-gold font-bold"><i class="ri-star-fill"></i> ${a.rating}</div>
+                            <span class="text-slate-400">|</span>
+                            <span class="text-slate-600">${a.reviews} reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <button onclick="openProfileModal(${a.id})" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterArtisans() {
+            const query = document.getElementById('searchService').value.toLowerCase();
+            const filtered = artisans.filter(a => a.title.toLowerCase().includes(query) || a.services.some(s => s.toLowerCase().includes(query)));
+            renderArtisans(filtered);
+            document.getElementById('artisans-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- 4. Profile & Chat Modal Logic ---
         function openProfileModal(artisanId) {
             currentArtisan = artisans.find(a => a.id === artisanId);
             if (!currentArtisan) return;
@@ -431,7 +540,6 @@
                 servicesContainer.appendChild(span);
             });
 
-            // Pre-fill chat modal data
             document.getElementById('chatArtisanName').textContent = currentArtisan.name;
             document.getElementById('chatArtisanNameHeader').textContent = currentArtisan.name;
             document.getElementById('chatArtisanImage').src = currentArtisan.image;
@@ -446,9 +554,15 @@
         }
 
         function openChatModal() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) {
+                closeProfileModal();
+                openAuthModal('customer');
+                return;
+            }
+            closeProfileModal();
             document.getElementById('chatModal').classList.remove('hidden');
             
-            // Reset chat with a welcome message
             const chatMessages = document.getElementById('chatMessages');
             chatMessages.innerHTML = `
                 <div class="flex gap-3">
@@ -459,7 +573,6 @@
                     </div>
                 </div>
             `;
-            
             document.getElementById('chatInput').focus();
         }
 
@@ -474,8 +587,6 @@
             if (!message) return;
 
             const chatMessages = document.getElementById('chatMessages');
-            
-            // Add user message
             const userMsgDiv = document.createElement('div');
             userMsgDiv.className = 'flex gap-3 justify-end';
             userMsgDiv.innerHTML = `
@@ -486,18 +597,15 @@
             `;
             chatMessages.appendChild(userMsgDiv);
             input.value = '';
-            
-            // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Simulate artisan typing and reply
             setTimeout(() => {
                 const artisanMsgDiv = document.createElement('div');
                 artisanMsgDiv.className = 'flex gap-3';
                 artisanMsgDiv.innerHTML = `
                     <img src="${currentArtisan.image}" alt="Artisan" class="w-8 h-8 rounded-full object-cover shrink-0 mt-1">
                     <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 max-w-[80%]">
-                        <p class="text-sm text-slate-700">Thanks for reaching out! I'll review your request and get back to you shortly with more details.</p>
+                        <p class="text-sm text-slate-700">Thanks for reaching out! I'll review your request and get back to you shortly.</p>
                         <span class="text-[10px] text-slate-400 mt-1 block">Just now</span>
                     </div>
                 `;
@@ -505,6 +613,12 @@
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 1500);
         }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthState();
+            renderArtisans(artisans);
+        });
     </script>
 </body>
 </html>
