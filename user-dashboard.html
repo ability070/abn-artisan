@@ -22,18 +22,14 @@
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased">
 
     <div class="min-h-screen flex">
-        <!-- Mobile Overlay -->
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
 
-        <!-- Sidebar -->
         <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
             <div class="p-6 flex items-center justify-between">
                 <a href="index.html" class="flex items-center gap-2">
@@ -43,8 +39,8 @@
                 <button class="lg:hidden text-slate-500" onclick="toggleSidebar()"><i class="ri-close-line text-2xl"></i></button>
             </div>
             <nav class="px-4 space-y-1 mt-4">
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-dashboard-line text-lg"></i> Dashboard
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
+                    <i class="ri-home-line text-lg"></i> Back to Home
                 </a>
                 <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-abn-emerald text-white shadow-lg shadow-emerald-600/20">
                     <i class="ri-user-settings-line text-lg"></i> My Profile
@@ -53,47 +49,31 @@
                     <i class="ri-briefcase-line text-lg"></i> Job Requests
                 </a>
                 <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-wallet-3-line text-lg"></i> Earnings
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
                     <i class="ri-message-3-line text-lg"></i> Messages
                 </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-settings-4-line text-lg"></i> Settings
-                </a>
-                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-red-600 hover:bg-red-50 transition-colors mt-8">
+                <a href="index.html" onclick="localStorage.removeItem('currentUser')" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-red-600 hover:bg-red-50 transition-colors mt-8">
                     <i class="ri-logout-box-r-line text-lg"></i> Log Out
                 </a>
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="flex-1 min-w-0">
-            <!-- Header -->
             <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-30">
                 <div class="flex items-center gap-4">
                     <button class="lg:hidden p-2 hover:bg-slate-100 rounded-lg" onclick="toggleSidebar()">
                         <i class="ri-menu-line text-2xl text-slate-600"></i>
                     </button>
                     <div>
-                        <h1 class="text-xl font-bold text-abn-navy">Welcome back, Chinedu!</h1>
+                        <h1 class="text-xl font-bold text-abn-navy" id="welcomeName">Welcome back!</h1>
                         <p class="text-sm text-slate-500">Complete your profile to start receiving job requests.</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-4">
-                    <button class="relative p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
-                        <i class="ri-notification-3-line text-xl"></i>
-                        <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-                    </button>
-                    <div class="w-10 h-10 bg-abn-emerald/10 rounded-full flex items-center justify-center text-abn-emerald font-bold border-2 border-white shadow-sm overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Profile" class="w-full h-full object-cover">
-                    </div>
+                <div class="w-10 h-10 bg-abn-emerald/10 rounded-full flex items-center justify-center text-abn-emerald font-bold border-2 border-white shadow-sm overflow-hidden">
+                    <img id="headerAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="w-full h-full object-cover">
                 </div>
             </header>
 
             <div class="p-6 lg:p-8 max-w-5xl mx-auto space-y-8">
-                
-                <!-- Profile Completion Banner -->
                 <div class="bg-abn-navy text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
                     <div>
                         <h2 class="text-xl font-bold mb-1">Complete Your Artisan Profile</h2>
@@ -101,22 +81,13 @@
                     </div>
                     <div class="flex items-center gap-4 shrink-0">
                         <div class="text-right">
-                            <span class="text-2xl font-bold text-abn-emerald">40%</span>
+                            <span class="text-2xl font-bold text-abn-emerald" id="completionPercent">40%</span>
                             <span class="text-sm text-slate-300 block">Completed</span>
-                        </div>
-                        <div class="w-16 h-16 relative">
-                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                                <path class="text-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
-                                <path class="text-abn-emerald" stroke-dasharray="40, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
-                            </svg>
                         </div>
                     </div>
                 </div>
 
-                <!-- Artisan Registration Form -->
-                <form class="space-y-6" onsubmit="event.preventDefault(); alert('✅ Profile saved and published successfully!');">
-                    
-                    <!-- Section 1: Profile Picture & Basic Info -->
+                <form id="profileForm" class="space-y-6" onsubmit="saveProfile(event)">
                     <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                         <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
                             <i class="ri-user-smile-line text-abn-emerald"></i> Profile Picture & Basic Info
@@ -138,17 +109,16 @@
                             <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name</label>
-                                    <input type="text" value="Chinedu Okafor" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                    <input type="text" id="fullName" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 mb-1">Professional Title</label>
-                                    <input type="text" value="Master Electrician" placeholder="e.g., Master Electrician" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                    <input type="text" id="profTitle" placeholder="e.g., Master Electrician" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Section 2: About & Services -->
                     <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                         <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
                             <i class="ri-briefcase-line text-abn-emerald"></i> About & Services
@@ -156,7 +126,7 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-1">About You</label>
-                                <textarea rows="4" placeholder="Describe your experience, skills, and what makes you the best choice for the job..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 resize-none transition-all"></textarea>
+                                <textarea id="aboutInput" rows="4" placeholder="Describe your experience, skills, and what makes you the best choice for the job..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 resize-none transition-all"></textarea>
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-1">Services Offered</label>
@@ -166,19 +136,11 @@
                                         <i class="ri-add-line"></i> Add
                                     </button>
                                 </div>
-                                <div id="servicesList" class="flex flex-wrap gap-2">
-                                    <span class="bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20 animate-fade-in">
-                                        Generator Repair <button type="button" onclick="this.parentElement.remove()" class="hover:text-red-500 transition-colors"><i class="ri-close-line"></i></button>
-                                    </span>
-                                    <span class="bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20 animate-fade-in">
-                                        Solar Installation <button type="button" onclick="this.parentElement.remove()" class="hover:text-red-500 transition-colors"><i class="ri-close-line"></i></button>
-                                    </span>
-                                </div>
+                                <div id="servicesList" class="flex flex-wrap gap-2"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Section 3: Location -->
                     <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                         <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
                             <i class="ri-map-pin-line text-abn-emerald"></i> Service Location
@@ -186,54 +148,32 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-1">State</label>
-                                <select class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
-                                    <option>Rivers</option>
-                                    <option>Lagos</option>
-                                    <option>Abuja (FCT)</option>
-                                    <option>Ogun</option>
-                                    <option>Anambra</option>
+                                <select id="stateSelect" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                    <option value="">Select State</option>
+                                    <!-- Populated by JS -->
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-1">City / Local Government</label>
-                                <input type="text" value="Port Harcourt" placeholder="e.g., Lekki, Ikeja, Port Harcourt" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                <input type="text" id="cityInput" placeholder="e.g., Lekki, Ikeja, Port Harcourt" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Section 4: Portfolio / Pictures of Work -->
                     <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                         <h3 class="text-lg font-bold text-abn-navy mb-2 flex items-center gap-2">
                             <i class="ri-image-line text-abn-emerald"></i> Portfolio (Pictures of Your Work)
                         </h3>
                         <p class="text-sm text-slate-500 mb-4">Upload up to 6 high-quality images of your previous work to build trust with customers.</p>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="portfolioGrid">
-                            <!-- Upload Box -->
                             <div class="aspect-square rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center bg-slate-50 hover:bg-slate-100 hover:border-abn-emerald transition-all cursor-pointer relative group">
                                 <i class="ri-add-circle-line text-3xl text-slate-400 mb-2 group-hover:text-abn-emerald transition-colors"></i>
                                 <span class="text-xs text-slate-500 font-medium">Add Photo</span>
                                 <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewPortfolio(this)">
                             </div>
-                            
-                            <!-- Pre-filled Example 1 -->
-                            <div class="aspect-square rounded-xl border border-slate-200 overflow-hidden relative group bg-slate-100">
-                                <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=400&h=400&fit=crop" class="w-full h-full object-cover">
-                                <button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600" onclick="this.parentElement.remove()">
-                                    <i class="ri-close-line text-sm"></i>
-                                </button>
-                            </div>
-                            
-                            <!-- Pre-filled Example 2 -->
-                            <div class="aspect-square rounded-xl border border-slate-200 overflow-hidden relative group bg-slate-100">
-                                <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=400&fit=crop" class="w-full h-full object-cover">
-                                <button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600" onclick="this.parentElement.remove()">
-                                    <i class="ri-close-line text-sm"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
 
-                    <!-- Submit Buttons -->
                     <div class="flex flex-col sm:flex-row justify-end gap-4 pt-4 pb-8">
                         <button type="button" class="px-6 py-3 rounded-xl font-semibold text-slate-600 hover:bg-slate-100 transition-colors border border-slate-200">Save as Draft</button>
                         <button type="submit" class="bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center justify-center gap-2">
@@ -246,14 +186,33 @@
     </div>
 
     <script>
+        // --- 1. Sidebar Logic ---
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebar-overlay');
-            sidebar.classList.toggle('-translate-x-full');
-            overlay.classList.toggle('hidden');
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            document.getElementById('sidebar-overlay').classList.toggle('hidden');
         }
 
-        // Profile Picture Preview
+        // --- 2. Populate 36 States + FCT ---
+        const states = [
+            "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", 
+            "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT (Abuja)", "Gombe", 
+            "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", 
+            "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", 
+            "Taraba", "Yobe", "Zamfara"
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const stateSelect = document.getElementById('stateSelect');
+            states.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = state;
+                stateSelect.appendChild(option);
+            });
+            loadProfileData();
+        });
+
+        // --- 3. Profile Picture Preview ---
         function previewImage(input, previewId, placeholderId, overlayId) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -262,13 +221,14 @@
                     img.src = e.target.result;
                     img.classList.remove('hidden');
                     document.getElementById(placeholderId).classList.add('hidden');
-                    document.getElementById(overlayId).classList.remove('opacity-0'); // Keep overlay visible to indicate it can be changed
+                    document.getElementById(overlayId).classList.remove('opacity-0');
+                    document.getElementById('headerAvatar').src = e.target.result;
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        // Add Service Tag
+        // --- 4. Service Tags ---
         function addService() {
             const input = document.getElementById('serviceInput');
             const value = input.value.trim();
@@ -282,38 +242,29 @@
                 input.focus();
             }
         }
-
-        // Allow Enter key to add service
         document.getElementById('serviceInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                addService();
-            }
+            if (e.key === 'Enter') { e.preventDefault(); addService(); }
         });
 
-        // Portfolio Image Preview
+        // --- 5. Portfolio Preview ---
         function previewPortfolio(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const parent = input.parentElement;
-                    // Transform the dashed upload box into an image preview box
                     parent.classList.remove('border-dashed', 'border-slate-300', 'bg-slate-50', 'hover:bg-slate-100');
                     parent.classList.add('border', 'border-slate-200', 'overflow-hidden', 'relative', 'group', 'bg-slate-100');
                     parent.innerHTML = `
                         <img src="${e.target.result}" class="w-full h-full object-cover">
-                        <button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600" onclick="resetPortfolioBox(this)">
+                        <button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600" onclick="this.parentElement.remove()">
                             <i class="ri-close-line text-sm"></i>
                         </button>
                     `;
-                    
-                    // Add a new empty upload box at the end of the grid
                     addNewUploadBox();
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
         function addNewUploadBox() {
             const grid = document.getElementById('portfolioGrid');
             const newBox = document.createElement('div');
@@ -326,9 +277,86 @@
             grid.appendChild(newBox);
         }
 
-        function resetPortfolioBox(btn) {
-            const parent = btn.parentElement;
-            parent.remove(); // Simply remove the image box, the last box in the grid will always be the upload box
+        // --- 6. Load Existing Data ---
+        function loadProfileData() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) { window.location.href = 'index.html'; return; }
+            
+            document.getElementById('welcomeName').textContent = `Welcome back, ${user.name}!`;
+            
+            const artisans = JSON.parse(localStorage.getItem('artisans')) || [];
+            const myProfile = artisans.find(a => a.id === user.id);
+            
+            if (myProfile) {
+                document.getElementById('fullName').value = myProfile.name || user.name;
+                document.getElementById('profTitle').value = myProfile.title || '';
+                document.getElementById('stateSelect').value = myProfile.location ? myProfile.location.split(', ').pop() : '';
+                document.getElementById('cityInput').value = myProfile.location ? myProfile.location.split(', ')[0] : '';
+                document.getElementById('aboutInput').value = myProfile.bio || '';
+                
+                if (myProfile.image && !myProfile.image.includes('unsplash')) {
+                    document.getElementById('profilePreview').src = myProfile.image;
+                    document.getElementById('profilePreview').classList.remove('hidden');
+                    document.getElementById('profilePlaceholder').classList.add('hidden');
+                    document.getElementById('headerAvatar').src = myProfile.image;
+                }
+
+                if (myProfile.services && myProfile.services.length > 0) {
+                    const list = document.getElementById('servicesList');
+                    list.innerHTML = '';
+                    myProfile.services.forEach(service => {
+                        const span = document.createElement('span');
+                        span.className = 'bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20 animate-fade-in';
+                        span.innerHTML = `${service} <button type="button" onclick="this.parentElement.remove()" class="hover:text-red-500 transition-colors"><i class="ri-close-line"></i></button>`;
+                        list.appendChild(span);
+                    });
+                }
+            } else {
+                document.getElementById('fullName').value = user.name || '';
+            }
+        }
+
+        // --- 7. SAVE & PUBLISH LOGIC ---
+        function saveProfile(event) {
+            event.preventDefault();
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) { alert('Please log in first.'); window.location.href = 'index.html'; return; }
+
+            const name = document.getElementById('fullName').value;
+            const title = document.getElementById('profTitle').value;
+            const state = document.getElementById('stateSelect').value;
+            const city = document.getElementById('cityInput').value;
+            const bio = document.getElementById('aboutInput').value;
+            
+            const serviceSpans = document.querySelectorAll('#servicesList span');
+            const services = Array.from(serviceSpans).map(span => span.childNodes[0].textContent.trim());
+
+            const profilePreview = document.getElementById('profilePreview');
+            const image = profilePreview.classList.contains('hidden') ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' : profilePreview.src;
+            
+            const portfolio = [];
+            document.querySelectorAll('#portfolioGrid img').forEach(img => portfolio.push(img.src));
+
+            const artisanData = {
+                id: user.id, name, title, location: `${city}, ${state}`,
+                rating: 5.0, reviews: 0, image, verified: true, bio, services, portfolio
+            };
+
+            let artisans = JSON.parse(localStorage.getItem('artisans')) || [];
+            const existingIndex = artisans.findIndex(a => a.id === user.id);
+            
+            if (existingIndex !== -1) {
+                artisanData.rating = artisans[existingIndex].rating;
+                artisanData.reviews = artisans[existingIndex].reviews;
+                artisanData.verified = artisans[existingIndex].verified;
+                artisans[existingIndex] = artisanData;
+            } else {
+                artisans.push(artisanData);
+            }
+
+            localStorage.setItem('artisans', JSON.stringify(artisans));
+            alert('✅ Profile saved and published successfully! It will now appear on the homepage.');
+            window.location.href = 'index.html';
         }
     </script>
 </body>
