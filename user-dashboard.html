@@ -8,28 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { abn: { navy: '#0F172A', emerald: '#059669' } },
-                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
-                }
-            }
-        }
+        tailwind.config = { theme: { extend: { colors: { abn: { navy: '#0F172A', emerald: '#059669' } }, fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }
     </script>
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-    </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased">
-
     <div class="min-h-screen flex">
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
         <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
             <div class="p-6 flex items-center justify-between">
                 <a href="index.html" class="flex items-center gap-2">
@@ -39,19 +23,16 @@
                 <button class="lg:hidden text-slate-500" onclick="toggleSidebar()"><i class="ri-close-line text-2xl"></i></button>
             </div>
             <nav class="px-4 space-y-1 mt-4">
-                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-home-line text-lg"></i> Back to Home
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-abn-emerald text-white shadow-lg shadow-emerald-600/20">
+                <button onclick="showView('dashboard')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors" id="nav-dashboard">
+                    <i class="ri-dashboard-line text-lg"></i> Dashboard
+                </button>
+                <button onclick="showView('profile')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors" id="nav-profile">
                     <i class="ri-user-settings-line text-lg"></i> My Profile
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-briefcase-line text-lg"></i> Job Requests
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors">
-                    <i class="ri-message-3-line text-lg"></i> Messages
-                </a>
-                <a href="index.html" onclick="localStorage.removeItem('currentUser')" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-red-600 hover:bg-red-50 transition-colors mt-8">
+                </button>
+                <button onclick="showView('messages')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-colors" id="nav-messages">
+                    <i class="ri-message-3-line text-lg"></i> Messages <span id="msgBadge" class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full hidden">0</span>
+                </button>
+                <a href="index.html" onclick="localStorage.removeItem('currentUser')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-red-600 hover:bg-red-50 transition-colors mt-8">
                     <i class="ri-logout-box-r-line text-lg"></i> Log Out
                 </a>
             </nav>
@@ -60,12 +41,10 @@
         <main class="flex-1 min-w-0">
             <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-30">
                 <div class="flex items-center gap-4">
-                    <button class="lg:hidden p-2 hover:bg-slate-100 rounded-lg" onclick="toggleSidebar()">
-                        <i class="ri-menu-line text-2xl text-slate-600"></i>
-                    </button>
+                    <button class="lg:hidden p-2 hover:bg-slate-100 rounded-lg" onclick="toggleSidebar()"><i class="ri-menu-line text-2xl text-slate-600"></i></button>
                     <div>
                         <h1 class="text-xl font-bold text-abn-navy" id="welcomeName">Welcome back!</h1>
-                        <p class="text-sm text-slate-500">Complete your profile to start receiving job requests.</p>
+                        <p class="text-sm text-slate-500">Manage your business and connect with customers.</p>
                     </div>
                 </div>
                 <div class="w-10 h-10 bg-abn-emerald/10 rounded-full flex items-center justify-center text-abn-emerald font-bold border-2 border-white shadow-sm overflow-hidden">
@@ -73,153 +52,406 @@
                 </div>
             </header>
 
-            <div class="p-6 lg:p-8 max-w-5xl mx-auto space-y-8">
-                <div class="bg-abn-navy text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div>
-                        <h2 class="text-xl font-bold mb-1">Complete Your Artisan Profile</h2>
-                        <p class="text-slate-300 text-sm max-w-md">A complete profile with photos and detailed services helps you get 3x more job requests from customers.</p>
+            <div class="p-6 lg:p-8 max-w-6xl mx-auto space-y-8">
+                
+                <!-- DASHBOARD VIEW -->
+                <div id="dashboardView" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-50 text-blue-600"><i class="ri-eye-line text-2xl"></i></div>
+                            </div>
+                            <p class="text-slate-500 text-sm font-medium">Profile Views</p>
+                            <p class="text-2xl font-bold text-abn-navy">1,248</p>
+                            <p class="text-xs text-emerald-600 mt-1">+12% this week</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-amber-50 text-amber-500"><i class="ri-star-line text-2xl"></i></div>
+                            </div>
+                            <p class="text-slate-500 text-sm font-medium">Average Rating</p>
+                            <p class="text-2xl font-bold text-abn-navy">4.9 <span class="text-sm text-slate-400 font-normal">/ 5.0</span></p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-emerald-50 text-abn-emerald"><i class="ri-message-2-line text-2xl"></i></div>
+                            </div>
+                            <p class="text-slate-500 text-sm font-medium">Total Messages</p>
+                            <p class="text-2xl font-bold text-abn-navy" id="dashMsgCount">0</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-purple-50 text-purple-600"><i class="ri-briefcase-line text-2xl"></i></div>
+                            </div>
+                            <p class="text-slate-500 text-sm font-medium">Jobs Completed</p>
+                            <p class="text-2xl font-bold text-abn-navy">34</p>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-4 shrink-0">
-                        <div class="text-right">
-                            <span class="text-2xl font-bold text-abn-emerald" id="completionPercent">40%</span>
-                            <span class="text-sm text-slate-300 block">Completed</span>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <h3 class="text-lg font-bold text-abn-navy mb-4">Verification Status</h3>
+                        <div id="verificationPending" class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
+                                    <i class="ri-shield-star-line text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-abn-navy">Identity Verification Required</p>
+                                    <p class="text-sm text-slate-600">Pay the ₦100,000 verification fee and upload your ID to get a "Verified" badge and go live on the platform.</p>
+                                </div>
+                            </div>
+                            <button onclick="openPaymentModal()" class="bg-abn-navy hover:bg-slate-800 text-white font-semibold py-2 px-5 rounded-lg text-sm transition-colors whitespace-nowrap">Verify Now</button>
+                        </div>
+                        <div id="verificationSuccess" class="hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                    <i class="ri-checkbox-circle-fill text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-abn-navy">Fully Verified</p>
+                                    <p class="text-sm text-slate-600">You are verified as a <span id="verifiedCategoryDisplay" class="font-bold text-abn-emerald"></span>. Your profile is live.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <form id="profileForm" class="space-y-6" onsubmit="saveProfile(event)">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                        <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
-                            <i class="ri-user-smile-line text-abn-emerald"></i> Profile Picture & Basic Info
-                        </h3>
-                        <div class="flex flex-col md:flex-row gap-6 items-start">
-                            <div class="flex flex-col items-center gap-3">
-                                <div class="w-32 h-32 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden relative group cursor-pointer hover:border-abn-emerald transition-colors">
-                                    <img id="profilePreview" src="" class="w-full h-full object-cover hidden">
-                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" id="profileOverlay">
-                                        <i class="ri-camera-line text-white text-2xl"></i>
+                <!-- PROFILE VIEW -->
+                <div id="profileView" class="hidden space-y-6">
+                    <form id="profileForm" class="space-y-6" onsubmit="saveProfile(event)">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                            <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2"><i class="ri-user-smile-line text-abn-emerald"></i> Profile Picture & Basic Info</h3>
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <div class="flex flex-col items-center gap-3">
+                                    <div class="w-32 h-32 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden relative group cursor-pointer hover:border-abn-emerald transition-colors">
+                                        <img id="profilePreview" src="" class="w-full h-full object-cover hidden">
+                                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" id="profileOverlay"><i class="ri-camera-line text-white text-2xl"></i></div>
+                                        <div id="profilePlaceholder" class="text-center p-2"><i class="ri-user-line text-3xl text-slate-400 mb-1"></i><p class="text-[10px] text-slate-500 font-medium">Upload Photo</p></div>
+                                        <input type="file" id="profilePic" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(this, 'profilePreview', 'profilePlaceholder', 'profileOverlay')">
                                     </div>
-                                    <div id="profilePlaceholder" class="text-center p-2">
-                                        <i class="ri-user-line text-3xl text-slate-400 mb-1"></i>
-                                        <p class="text-[10px] text-slate-500 font-medium">Upload Photo</p>
+                                </div>
+                                <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name</label>
+                                        <input type="text" id="fullName" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
                                     </div>
-                                    <input type="file" id="profilePic" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(this, 'profilePreview', 'profilePlaceholder', 'profileOverlay')">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-1">Professional Category</label>
+                                        <select id="profTitle" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                            <option value="">Select your main category</option>
+                                            <option value="Plumbing">Plumbing</option>
+                                            <option value="Electrical Services">Electrical Services</option>
+                                            <option value="Carpentry">Carpentry</option>
+                                            <option value="Painting">Painting</option>
+                                            <option value="Tiling">Tiling</option>
+                                            <option value="Welding">Welding</option>
+                                            <option value="Cleaning">Cleaning</option>
+                                            <option value="Generator Repairs">Generator Repairs</option>
+                                        </select>
+                                        <p class="text-xs text-amber-600 mt-1 hidden" id="categoryLockWarning"><i class="ri-lock-line"></i> Category locked after verification. Contact support to change.</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                            <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2"><i class="ri-briefcase-line text-abn-emerald"></i> About & Services</h3>
+                            <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name</label>
-                                    <input type="text" id="fullName" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">About You</label>
+                                    <textarea id="aboutInput" rows="4" placeholder="Describe your experience..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 resize-none transition-all"></textarea>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Professional Title</label>
-                                    <input type="text" id="profTitle" placeholder="e.g., Master Electrician" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Specific Services Offered</label>
+                                    <div class="flex gap-2 mb-3">
+                                        <input type="text" id="serviceInput" placeholder="e.g., Leak Repair, House Wiring" class="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                        <button type="button" onclick="addService()" class="bg-abn-navy hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-1"><i class="ri-add-line"></i> Add</button>
+                                    </div>
+                                    <div id="servicesList" class="flex flex-wrap gap-2"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                        <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
-                            <i class="ri-briefcase-line text-abn-emerald"></i> About & Services
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">About You</label>
-                                <textarea id="aboutInput" rows="4" placeholder="Describe your experience, skills, and what makes you the best choice for the job..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 resize-none transition-all"></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Services Offered</label>
-                                <div class="flex gap-2 mb-3">
-                                    <input type="text" id="serviceInput" placeholder="e.g., House Wiring, Leak Repair" class="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
-                                    <button type="button" onclick="addService()" class="bg-abn-navy hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-1">
-                                        <i class="ri-add-line"></i> Add
-                                    </button>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                            <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2"><i class="ri-map-pin-line text-abn-emerald"></i> Service Location</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">State</label>
+                                    <select id="stateSelect" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                        <option value="">Select State</option>
+                                    </select>
                                 </div>
-                                <div id="servicesList" class="flex flex-wrap gap-2"></div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">City / Local Government</label>
+                                    <input type="text" id="cityInput" placeholder="e.g., Lekki, Ikeja" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                        <h3 class="text-lg font-bold text-abn-navy mb-4 flex items-center gap-2">
-                            <i class="ri-map-pin-line text-abn-emerald"></i> Service Location
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">State</label>
-                                <select id="stateSelect" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
-                                    <option value="">Select State</option>
-                                    <!-- Populated by JS -->
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">City / Local Government</label>
-                                <input type="text" id="cityInput" placeholder="e.g., Lekki, Ikeja, Port Harcourt" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50 transition-all">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                            <h3 class="text-lg font-bold text-abn-navy mb-2 flex items-center gap-2"><i class="ri-image-line text-abn-emerald"></i> Portfolio (Pictures of Your Work)</h3>
+                            <p class="text-sm text-slate-500 mb-4">These images will be displayed on your public profile.</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="portfolioGrid">
+                                <div class="aspect-square rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center bg-slate-50 hover:bg-slate-100 hover:border-abn-emerald transition-all cursor-pointer relative group">
+                                    <i class="ri-add-circle-line text-3xl text-slate-400 mb-2 group-hover:text-abn-emerald transition-colors"></i>
+                                    <span class="text-xs text-slate-500 font-medium">Add Photo</span>
+                                    <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewPortfolio(this)">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                        <h3 class="text-lg font-bold text-abn-navy mb-2 flex items-center gap-2">
-                            <i class="ri-image-line text-abn-emerald"></i> Portfolio (Pictures of Your Work)
-                        </h3>
-                        <p class="text-sm text-slate-500 mb-4">Upload up to 6 high-quality images of your previous work to build trust with customers.</p>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="portfolioGrid">
-                            <div class="aspect-square rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center bg-slate-50 hover:bg-slate-100 hover:border-abn-emerald transition-all cursor-pointer relative group">
-                                <i class="ri-add-circle-line text-3xl text-slate-400 mb-2 group-hover:text-abn-emerald transition-colors"></i>
-                                <span class="text-xs text-slate-500 font-medium">Add Photo</span>
-                                <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewPortfolio(this)">
-                            </div>
+                        <div class="flex justify-end gap-4 pt-4 pb-8">
+                            <button type="submit" class="bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"><i class="ri-save-line text-lg"></i> Save & Publish Profile</button>
                         </div>
-                    </div>
+                    </form>
+                </div>
 
-                    <div class="flex flex-col sm:flex-row justify-end gap-4 pt-4 pb-8">
-                        <button type="button" class="px-6 py-3 rounded-xl font-semibold text-slate-600 hover:bg-slate-100 transition-colors border border-slate-200">Save as Draft</button>
-                        <button type="submit" class="bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center justify-center gap-2">
-                            <i class="ri-save-line text-lg"></i> Save & Publish Profile
-                        </button>
+                <!-- MESSAGES VIEW -->
+                <div id="messagesView" class="hidden space-y-6">
+                    <h2 class="text-2xl font-bold text-abn-navy">Customer Inbox</h2>
+                    <div id="messagesList" class="bg-white rounded-2xl border border-slate-100 shadow-sm divide-y divide-slate-100 min-h-[300px]">
+                        <!-- Populated by JS -->
                     </div>
-                </form>
+                </div>
             </div>
         </main>
     </div>
 
+    <!-- PAYMENT MODAL -->
+    <div id="paymentModal" class="fixed inset-0 z-[80] hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" onclick="closePaymentModal()"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:w-full sm:max-w-md p-8">
+                <button onclick="closePaymentModal()" class="absolute top-4 right-4 p-2 hover:bg-slate-100 rounded-full"><i class="ri-close-line text-xl text-slate-500"></i></button>
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-abn-emerald/10 text-abn-emerald rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="ri-secure-payment-line text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-abn-navy mb-2">Artisan Verification</h3>
+                    <p class="text-slate-500 text-sm">Pay the one-time verification fee to get your "Verified" badge and go live on the platform.</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-5 mb-6 border border-slate-200">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-slate-600">Verification Fee</span>
+                        <span class="font-bold text-abn-navy">₦100,000.00</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-slate-200">
+                        <span class="font-bold text-abn-navy">Total</span>
+                        <span class="font-bold text-abn-emerald text-xl">₦100,000.00</span>
+                    </div>
+                </div>
+                <button id="payButton" onclick="simulatePayment()" class="w-full bg-abn-navy hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                    <i class="ri-bank-card-line text-lg"></i> Pay with Paystack
+                </button>
+                <div id="paymentProcessing" class="hidden w-full bg-slate-100 text-slate-600 font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2">
+                    <i class="ri-loader-4-line animate-spin text-xl"></i> Processing Payment...
+                </div>
+                <p class="text-xs text-center text-slate-400 mt-5 flex items-center justify-center gap-1">
+                    <i class="ri-shield-check-line text-green-600"></i> Secured by Paystack
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ID VERIFICATION MODAL -->
+    <div id="idVerificationModal" class="fixed inset-0 z-[80] hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" onclick="closeIdVerificationModal()"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:w-full sm:max-w-md p-8">
+                <button onclick="closeIdVerificationModal()" class="absolute top-4 right-4 p-2 hover:bg-slate-100 rounded-full"><i class="ri-close-line text-xl text-slate-500"></i></button>
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="ri-id-card-line text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-abn-navy mb-2">ID Verification</h3>
+                    <p class="text-slate-500 text-sm">Upload a valid government-issued ID to complete your verification.</p>
+                </div>
+                <form onsubmit="submitIdVerification(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Verified Category</label>
+                        <select id="verifyCategorySelect" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50">
+                            <option value="Plumbing">Plumbing</option>
+                            <option value="Electrical Services">Electrical Services</option>
+                            <option value="Carpentry">Carpentry</option>
+                            <option value="Painting">Painting</option>
+                            <option value="Tiling">Tiling</option>
+                            <option value="Welding">Welding</option>
+                            <option value="Cleaning">Cleaning</option>
+                            <option value="Generator Repairs">Generator Repairs</option>
+                        </select>
+                        <p class="text-xs text-amber-600 mt-1"><i class="ri-alert-line"></i> You can only operate under this verified category.</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Upload ID (NIN, Driver's License, or Passport)</label>
+                        <input type="file" required accept="image/*,.pdf" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-abn-emerald/50">
+                    </div>
+                    <button type="submit" class="w-full bg-abn-emerald hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="ri-upload-cloud-line text-lg"></i> Submit for Verification
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTISAN CHAT MODAL -->
+    <div id="artisanChatModal" class="fixed inset-0 z-[70] hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm transition-opacity" onclick="closeArtisanChat()"></div>
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col h-[600px] max-h-[90vh]">
+                <div class="bg-abn-navy p-4 flex items-center justify-between shrink-0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-abn-emerald text-white flex items-center justify-center font-bold text-lg" id="chatCustomerInitial"></div>
+                        <div><h3 id="chatCustomerNameHeader" class="font-bold text-white text-sm"></h3><p class="text-xs text-slate-300 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block"></span> Client</p></div>
+                    </div>
+                    <button onclick="closeArtisanChat()" class="p-2 text-slate-300 hover:text-white"><i class="ri-close-line text-xl"></i></button>
+                </div>
+                <div id="artisanChatMessages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 chat-scroll"></div>
+                <div class="p-4 bg-white border-t border-slate-200 shrink-0">
+                    <form id="artisanChatForm" onsubmit="sendArtisanMessage(event)" class="flex gap-2">
+                        <input type="text" id="artisanChatInput" placeholder="Type your reply..." class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm" autocomplete="off">
+                        <button type="submit" class="bg-abn-emerald hover:bg-emerald-700 text-white p-3 rounded-xl"><i class="ri-send-plane-fill text-lg"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- 1. Sidebar Logic ---
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('-translate-x-full');
             document.getElementById('sidebar-overlay').classList.toggle('hidden');
         }
 
-        // --- 2. Populate 36 States + FCT ---
-        const states = [
-            "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", 
-            "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT (Abuja)", "Gombe", 
-            "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", 
-            "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", 
-            "Taraba", "Yobe", "Zamfara"
-        ];
+        function showView(view) {
+            ['dashboard', 'profile', 'messages'].forEach(v => {
+                document.getElementById(v + 'View').classList.add('hidden');
+                document.getElementById('nav-' + v).classList.remove('bg-abn-emerald', 'text-white', 'shadow-lg', 'shadow-emerald-600/20');
+                document.getElementById('nav-' + v).classList.add('text-slate-600', 'hover:bg-slate-50');
+            });
+            document.getElementById(view + 'View').classList.remove('hidden');
+            document.getElementById('nav-' + view).classList.add('bg-abn-emerald', 'text-white', 'shadow-lg', 'shadow-emerald-600/20');
+            document.getElementById('nav-' + view).classList.remove('text-slate-600', 'hover:bg-slate-50');
+            
+            if (view === 'messages') loadMessages();
+            if (view === 'dashboard') loadDashboardStats();
+        }
 
+        const states = ["Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT (Abuja)", "Gombe", "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara"];
+        
         document.addEventListener('DOMContentLoaded', () => {
             const stateSelect = document.getElementById('stateSelect');
-            states.forEach(state => {
-                const option = document.createElement('option');
-                option.value = state;
-                option.textContent = state;
-                stateSelect.appendChild(option);
-            });
+            states.forEach(state => { const option = document.createElement('option'); option.value = state; option.textContent = state; stateSelect.appendChild(option); });
             loadProfileData();
+            showView('dashboard');
+            updateMsgBadge();
         });
 
-        // --- 3. Profile Picture Preview ---
+        function updateMsgBadge() {
+            const allMsgs = JSON.parse(localStorage.getItem('messages')) || [];
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) return;
+            const myMsgs = allMsgs.filter(m => m.artisanId === user.id);
+            const badge = document.getElementById('msgBadge');
+            if (myMsgs.length > 0) {
+                badge.textContent = myMsgs.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function loadDashboardStats() {
+            const allMsgs = JSON.parse(localStorage.getItem('messages')) || [];
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) return;
+            const myMsgs = allMsgs.filter(m => m.artisanId === user.id);
+            document.getElementById('dashMsgCount').textContent = myMsgs.length;
+            
+            // Update verification UI
+            const artisans = JSON.parse(localStorage.getItem('artisans')) || [];
+            const myProfile = artisans.find(a => a.id === user.id);
+            if (myProfile && myProfile.verified) {
+                document.getElementById('verificationPending').classList.add('hidden');
+                document.getElementById('verificationSuccess').classList.remove('hidden');
+                document.getElementById('verifiedCategoryDisplay').textContent = myProfile.verifiedCategory || myProfile.title;
+            }
+        }
+
+        function loadMessages() {
+            const allMsgs = JSON.parse(localStorage.getItem('messages')) || [];
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) return;
+            const myMsgs = allMsgs.filter(m => m.artisanId === user.id);
+            const container = document.getElementById('messagesList');
+            
+            if (myMsgs.length === 0) {
+                container.innerHTML = '<div class="p-12 text-center text-slate-500 flex flex-col items-center gap-3"><i class="ri-inbox-line text-4xl text-slate-300"></i><p>No messages yet. When customers contact you, they will appear here.</p></div>';
+                return;
+            }
+
+            container.innerHTML = myMsgs.map(m => {
+                const lastMsg = m.messages[m.messages.length - 1];
+                return `
+                <div onclick="openArtisanChat('${m.id}')" class="p-4 hover:bg-slate-50 cursor-pointer flex items-center gap-4 transition-colors">
+                    <div class="w-12 h-12 rounded-full bg-abn-navy text-white flex items-center justify-center font-bold text-lg shrink-0">${m.customerName.charAt(0)}</div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <h4 class="font-bold text-abn-navy truncate">${m.customerName}</h4>
+                            <span class="text-xs text-slate-400 shrink-0 ml-2">Just now</span>
+                        </div>
+                        <p class="text-sm text-slate-500 truncate">${lastMsg.text}</p>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        let currentChatConvId = null;
+        function openArtisanChat(convId) {
+            currentChatConvId = convId;
+            const allMsgs = JSON.parse(localStorage.getItem('messages')) || [];
+            const conv = allMsgs.find(c => c.id === convId);
+            
+            document.getElementById('chatCustomerNameHeader').textContent = conv.customerName;
+            document.getElementById('chatCustomerInitial').textContent = conv.customerName.charAt(0);
+            document.getElementById('artisanChatModal').classList.remove('hidden');
+            
+            const container = document.getElementById('artisanChatMessages');
+            container.innerHTML = conv.messages.map(msg => `
+                <div class="flex gap-3 ${msg.sender === 'artisan' ? 'justify-end' : ''}">
+                    ${msg.sender === 'customer' ? `<div class="w-8 h-8 rounded-full bg-abn-navy text-white flex items-center justify-center text-xs shrink-0 mt-1">${conv.customerName.charAt(0)}</div>` : ''}
+                    <div class="${msg.sender === 'artisan' ? 'bg-abn-emerald text-white rounded-tr-none' : 'bg-white text-slate-700 rounded-tl-none border border-slate-100'} p-3 rounded-2xl shadow-sm max-w-[80%]">
+                        <p class="text-sm">${msg.text}</p>
+                    </div>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+        function closeArtisanChat() { 
+            document.getElementById('artisanChatModal').classList.add('hidden'); 
+            currentChatConvId = null; 
+        }
+
+        function sendArtisanMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('artisanChatInput');
+            const text = input.value.trim();
+            if (!text || !currentChatConvId) return;
+
+            let allConvs = JSON.parse(localStorage.getItem('messages')) || [];
+            const conv = allConvs.find(c => c.id === currentChatConvId);
+            conv.messages.push({ sender: 'artisan', text, time: new Date().toISOString() });
+            localStorage.setItem('messages', JSON.stringify(allConvs));
+            
+            input.value = '';
+            openArtisanChat(currentChatConvId); // Refresh
+        }
+
         function previewImage(input, previewId, placeholderId, overlayId) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const img = document.getElementById(previewId);
-                    img.src = e.target.result;
-                    img.classList.remove('hidden');
+                    document.getElementById(previewId).src = e.target.result;
+                    document.getElementById(previewId).classList.remove('hidden');
                     document.getElementById(placeholderId).classList.add('hidden');
                     document.getElementById(overlayId).classList.remove('opacity-0');
                     document.getElementById('headerAvatar').src = e.target.result;
@@ -228,38 +460,29 @@
             }
         }
 
-        // --- 4. Service Tags ---
         function addService() {
             const input = document.getElementById('serviceInput');
             const value = input.value.trim();
             if (value) {
                 const list = document.getElementById('servicesList');
                 const span = document.createElement('span');
-                span.className = 'bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20 animate-fade-in';
+                span.className = 'bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20';
                 span.innerHTML = `${value} <button type="button" onclick="this.parentElement.remove()" class="hover:text-red-500 transition-colors"><i class="ri-close-line"></i></button>`;
                 list.appendChild(span);
                 input.value = '';
                 input.focus();
             }
         }
-        document.getElementById('serviceInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') { e.preventDefault(); addService(); }
-        });
+        document.getElementById('serviceInput').addEventListener('keypress', function (e) { if (e.key === 'Enter') { e.preventDefault(); addService(); } });
 
-        // --- 5. Portfolio Preview ---
         function previewPortfolio(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const parent = input.parentElement;
-                    parent.classList.remove('border-dashed', 'border-slate-300', 'bg-slate-50', 'hover:bg-slate-100');
+                    parent.classList.remove('border-dashed', 'border-slate-300', 'bg-slate-50');
                     parent.classList.add('border', 'border-slate-200', 'overflow-hidden', 'relative', 'group', 'bg-slate-100');
-                    parent.innerHTML = `
-                        <img src="${e.target.result}" class="w-full h-full object-cover">
-                        <button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600" onclick="this.parentElement.remove()">
-                            <i class="ri-close-line text-sm"></i>
-                        </button>
-                    `;
+                    parent.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover"><button type="button" class="absolute top-2 right-2 bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-md" onclick="this.parentElement.remove()"><i class="ri-close-line text-sm"></i></button>`;
                     addNewUploadBox();
                 }
                 reader.readAsDataURL(input.files[0]);
@@ -269,19 +492,16 @@
             const grid = document.getElementById('portfolioGrid');
             const newBox = document.createElement('div');
             newBox.className = 'aspect-square rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center bg-slate-50 hover:bg-slate-100 hover:border-abn-emerald transition-all cursor-pointer relative group';
-            newBox.innerHTML = `
-                <i class="ri-add-circle-line text-3xl text-slate-400 mb-2 group-hover:text-abn-emerald transition-colors"></i>
-                <span class="text-xs text-slate-500 font-medium">Add Photo</span>
-                <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewPortfolio(this)">
-            `;
+            newBox.innerHTML = `<i class="ri-add-circle-line text-3xl text-slate-400 mb-2 group-hover:text-abn-emerald transition-colors"></i><span class="text-xs text-slate-500 font-medium">Add Photo</span><input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewPortfolio(this)">`;
             grid.appendChild(newBox);
         }
 
-        // --- 6. Load Existing Data ---
         function loadProfileData() {
-            const user = JSON.parse(localStorage.getItem('currentUser'));
-            if (!user) { window.location.href = 'index.html'; return; }
-            
+            let user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) {
+                user = { name: "Demo Artisan", email: "demo@abnartisan.ng", role: "artisan", id: 999 };
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            }
             document.getElementById('welcomeName').textContent = `Welcome back, ${user.name}!`;
             
             const artisans = JSON.parse(localStorage.getItem('artisans')) || [];
@@ -289,7 +509,16 @@
             
             if (myProfile) {
                 document.getElementById('fullName').value = myProfile.name || user.name;
-                document.getElementById('profTitle').value = myProfile.title || '';
+                
+                const titleSelect = document.getElementById('profTitle');
+                if (myProfile.verified && myProfile.verifiedCategory) {
+                    titleSelect.value = myProfile.verifiedCategory;
+                    titleSelect.disabled = true;
+                    document.getElementById('categoryLockWarning').classList.remove('hidden');
+                } else {
+                    titleSelect.value = myProfile.title || '';
+                }
+                
                 document.getElementById('stateSelect').value = myProfile.location ? myProfile.location.split(', ').pop() : '';
                 document.getElementById('cityInput').value = myProfile.location ? myProfile.location.split(', ')[0] : '';
                 document.getElementById('aboutInput').value = myProfile.bio || '';
@@ -306,57 +535,108 @@
                     list.innerHTML = '';
                     myProfile.services.forEach(service => {
                         const span = document.createElement('span');
-                        span.className = 'bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20 animate-fade-in';
+                        span.className = 'bg-abn-emerald/10 text-abn-emerald px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 border border-abn-emerald/20';
                         span.innerHTML = `${service} <button type="button" onclick="this.parentElement.remove()" class="hover:text-red-500 transition-colors"><i class="ri-close-line"></i></button>`;
                         list.appendChild(span);
                     });
                 }
-            } else {
-                document.getElementById('fullName').value = user.name || '';
+            } else { 
+                document.getElementById('fullName').value = user.name || ''; 
             }
         }
 
-        // --- 7. SAVE & PUBLISH LOGIC ---
         function saveProfile(event) {
             event.preventDefault();
             const user = JSON.parse(localStorage.getItem('currentUser'));
-            if (!user) { alert('Please log in first.'); window.location.href = 'index.html'; return; }
-
             const name = document.getElementById('fullName').value;
             const title = document.getElementById('profTitle').value;
             const state = document.getElementById('stateSelect').value;
             const city = document.getElementById('cityInput').value;
             const bio = document.getElementById('aboutInput').value;
-            
             const serviceSpans = document.querySelectorAll('#servicesList span');
             const services = Array.from(serviceSpans).map(span => span.childNodes[0].textContent.trim());
-
             const profilePreview = document.getElementById('profilePreview');
             const image = profilePreview.classList.contains('hidden') ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' : profilePreview.src;
-            
             const portfolio = [];
             document.querySelectorAll('#portfolioGrid img').forEach(img => portfolio.push(img.src));
 
-            const artisanData = {
-                id: user.id, name, title, location: `${city}, ${state}`,
-                rating: 5.0, reviews: 0, image, verified: true, bio, services, portfolio
-            };
+            const artisans = JSON.parse(localStorage.getItem('artisans')) || [];
+            const existingIndex = artisans.findIndex(a => a.id === user.id);
+            
+            let verifiedStatus = false;
+            let verifiedCat = null;
+            if (existingIndex !== -1) {
+                verifiedStatus = artisans[existingIndex].verified;
+                verifiedCat = artisans[existingIndex].verifiedCategory;
+            }
 
+            const artisanData = { 
+                id: user.id, name, title, location: `${city}, ${state}`, 
+                rating: 5.0, reviews: 0, image, 
+                verified: verifiedStatus, 
+                verifiedCategory: verifiedCat,
+                bio, services, portfolio 
+            };
+            
+            if (existingIndex !== -1) { 
+                artisanData.rating = artisans[existingIndex].rating; 
+                artisanData.reviews = artisans[existingIndex].reviews; 
+                artisans[existingIndex] = artisanData; 
+            } else { 
+                artisans.push(artisanData); 
+            }
+            localStorage.setItem('artisans', JSON.stringify(artisans));
+            alert('✅ Profile saved!');
+            showView('dashboard');
+        }
+
+        // --- VERIFICATION FLOW ---
+        function openPaymentModal() {
+            document.getElementById('paymentModal').classList.remove('hidden');
+            document.getElementById('payButton').classList.remove('hidden');
+            document.getElementById('paymentProcessing').classList.add('hidden');
+        }
+        function closePaymentModal() { document.getElementById('paymentModal').classList.add('hidden'); }
+
+        function simulatePayment() {
+            document.getElementById('payButton').classList.add('hidden');
+            document.getElementById('paymentProcessing').classList.remove('hidden');
+            
+            setTimeout(() => {
+                closePaymentModal();
+                openIdVerificationModal();
+            }, 2500);
+        }
+
+        function openIdVerificationModal() {
+            // Pre-fill with their selected category if available
+            const currentTitle = document.getElementById('profTitle').value;
+            if (currentTitle) {
+                document.getElementById('verifyCategorySelect').value = currentTitle;
+            }
+            document.getElementById('idVerificationModal').classList.remove('hidden');
+        }
+        function closeIdVerificationModal() { document.getElementById('idVerificationModal').classList.add('hidden'); }
+
+        function submitIdVerification(event) {
+            event.preventDefault();
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const selectedCategory = document.getElementById('verifyCategorySelect').value;
+            
             let artisans = JSON.parse(localStorage.getItem('artisans')) || [];
             const existingIndex = artisans.findIndex(a => a.id === user.id);
             
             if (existingIndex !== -1) {
-                artisanData.rating = artisans[existingIndex].rating;
-                artisanData.reviews = artisans[existingIndex].reviews;
-                artisanData.verified = artisans[existingIndex].verified;
-                artisans[existingIndex] = artisanData;
-            } else {
-                artisans.push(artisanData);
+                artisans[existingIndex].verified = true;
+                artisans[existingIndex].verifiedCategory = selectedCategory;
+                artisans[existingIndex].title = selectedCategory; // Lock title to verified category
+                localStorage.setItem('artisans', JSON.stringify(artisans));
             }
-
-            localStorage.setItem('artisans', JSON.stringify(artisans));
-            alert('✅ Profile saved and published successfully! It will now appear on the homepage.');
-            window.location.href = 'index.html';
+            
+            closeIdVerificationModal();
+            alert('✅ Verification Submitted Successfully! Your profile is now live and verified.');
+            loadProfileData(); // Refresh UI to show locked category
+            showView('dashboard'); // Go back to dashboard to see success state
         }
     </script>
 </body>
