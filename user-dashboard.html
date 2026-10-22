@@ -366,15 +366,6 @@
             if (!user) return;
             const myMsgs = allMsgs.filter(m => m.artisanId === user.id);
             document.getElementById('dashMsgCount').textContent = myMsgs.length;
-            
-            // Update verification UI
-            const artisans = JSON.parse(localStorage.getItem('artisans')) || [];
-            const myProfile = artisans.find(a => a.id === user.id);
-            if (myProfile && myProfile.verified) {
-                document.getElementById('verificationPending').classList.add('hidden');
-                document.getElementById('verificationSuccess').classList.remove('hidden');
-                document.getElementById('verifiedCategoryDisplay').textContent = myProfile.verifiedCategory || myProfile.title;
-            }
         }
 
         function loadMessages() {
@@ -443,7 +434,7 @@
             localStorage.setItem('messages', JSON.stringify(allConvs));
             
             input.value = '';
-            openArtisanChat(currentChatConvId); // Refresh
+            openArtisanChat(currentChatConvId);
         }
 
         function previewImage(input, previewId, placeholderId, overlayId) {
@@ -507,16 +498,24 @@
             const artisans = JSON.parse(localStorage.getItem('artisans')) || [];
             const myProfile = artisans.find(a => a.id === user.id);
             
+            const titleSelect = document.getElementById('profTitle');
+            const categoryLockWarning = document.getElementById('categoryLockWarning');
+            
             if (myProfile) {
                 document.getElementById('fullName').value = myProfile.name || user.name;
                 
-                const titleSelect = document.getElementById('profTitle');
                 if (myProfile.verified && myProfile.verifiedCategory) {
                     titleSelect.value = myProfile.verifiedCategory;
                     titleSelect.disabled = true;
-                    document.getElementById('categoryLockWarning').classList.remove('hidden');
+                    categoryLockWarning.classList.remove('hidden');
+                } else if (user.pendingVerification && user.verifiedCategory) {
+                    titleSelect.value = user.verifiedCategory;
+                    titleSelect.disabled = true;
+                    categoryLockWarning.classList.remove('hidden');
                 } else {
                     titleSelect.value = myProfile.title || '';
+                    titleSelect.disabled = false;
+                    categoryLockWarning.classList.add('hidden');
                 }
                 
                 document.getElementById('stateSelect').value = myProfile.location ? myProfile.location.split(', ').pop() : '';
@@ -542,6 +541,23 @@
                 }
             } else { 
                 document.getElementById('fullName').value = user.name || ''; 
+                if (user.pendingVerification && user.verifiedCategory) {
+                    titleSelect.value = user.verifiedCategory;
+                    titleSelect.disabled = true;
+                    categoryLockWarning.classList.remove('hidden');
+                }
+            }
+            
+            const isVerified = (myProfile && myProfile.verified) || user.pendingVerification;
+            const displayCategory = (myProfile && myProfile.verifiedCategory) ? myProfile.verifiedCategory : (user.verifiedCategory || '');
+            
+            if (isVerified) {
+                document.getElementById('verificationPending').classList.add('hidden');
+                document.getElementById('verificationSuccess').classList.remove('hidden');
+                document.getElementById('verifiedCategoryDisplay').textContent = displayCategory;
+            } else {
+                document.getElementById('verificationPending').classList.remove('hidden');
+                document.getElementById('verificationSuccess').classList.add('hidden');
             }
         }
 
@@ -549,7 +565,11 @@
             event.preventDefault();
             const user = JSON.parse(localStorage.getItem('currentUser'));
             const name = document.getElementById('fullName').value;
-            const title = document.getElementById('profTitle').value;
+            
+            const titleSelect = document.getElementById('profTitle');
+            const isVerified = user.pendingVerification || titleSelect.disabled;
+            const title = isVerified ? (user.verifiedCategory || titleSelect.value) : titleSelect.value;
+            
             const state = document.getElementById('stateSelect').value;
             const city = document.getElementById('cityInput').value;
             const bio = document.getElementById('aboutInput').value;
@@ -560,13 +580,14 @@
             const portfolio = [];
             document.querySelectorAll('#portfolioGrid img').forEach(img => portfolio.push(img.src));
 
-            const artisans = JSON.parse(localStorage.getItem('artisans')) || [];
+            let artisans = JSON.parse(localStorage.getItem('artisans')) || [];
             const existingIndex = artisans.findIndex(a => a.id === user.id);
             
-            let verifiedStatus = false;
-            let verifiedCat = null;
-            if (existingIndex !== -1) {
-                verifiedStatus = artisans[existingIndex].verified;
+            let verifiedStatus = user.pendingVerification ? true : false;
+            let verifiedCat = user.verifiedCategory || null;
+            
+            if (existingIndex !== -1 && artisans[existingIndex].verified) {
+                verifiedStatus = true;
                 verifiedCat = artisans[existingIndex].verifiedCategory;
             }
 
@@ -585,12 +606,24 @@
             } else { 
                 artisans.push(artisanData); 
             }
+            
             localStorage.setItem('artisans', JSON.stringify(artisans));
-            alert('✅ Profile saved!');
-            showView('dashboard');
+            
+            if (user.pendingVerification) {
+                delete user.pendingVerification;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            }
+            
+            // AUTO-REDIRECT TO VERIFICATION IF NOT VERIFIED
+            if (!verifiedStatus) {
+                alert('✅ Profile details saved! To go live on the platform and avoid scams, please complete the verification process.');
+                openPaymentModal(); // Automatically opens the payment modal
+            } else {
+                alert('✅ Profile saved and published successfully! It will now appear on the homepage.');
+                showView('dashboard');
+            }
         }
 
-        // --- VERIFICATION FLOW ---
         function openPaymentModal() {
             document.getElementById('paymentModal').classList.remove('hidden');
             document.getElementById('payButton').classList.remove('hidden');
@@ -609,7 +642,6 @@
         }
 
         function openIdVerificationModal() {
-            // Pre-fill with their selected category if available
             const currentTitle = document.getElementById('profTitle').value;
             if (currentTitle) {
                 document.getElementById('verifyCategorySelect').value = currentTitle;
@@ -623,20 +655,31 @@
             const user = JSON.parse(localStorage.getItem('currentUser'));
             const selectedCategory = document.getElementById('verifyCategorySelect').value;
             
+            user.pendingVerification = true;
+            user.verifiedCategory = selectedCategory;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
             let artisans = JSON.parse(localStorage.getItem('artisans')) || [];
             const existingIndex = artisans.findIndex(a => a.id === user.id);
             
             if (existingIndex !== -1) {
                 artisans[existingIndex].verified = true;
                 artisans[existingIndex].verifiedCategory = selectedCategory;
-                artisans[existingIndex].title = selectedCategory; // Lock title to verified category
+                artisans[existingIndex].title = selectedCategory;
+                localStorage.setItem('artisans', JSON.stringify(artisans));
+            } else {
+                artisans.push({
+                    id: user.id, name: user.name, title: selectedCategory, location: "",
+                    rating: 5.0, reviews: 0, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+                    verified: true, verifiedCategory: selectedCategory, bio: "", services: [], portfolio: []
+                });
                 localStorage.setItem('artisans', JSON.stringify(artisans));
             }
             
             closeIdVerificationModal();
-            alert('✅ Verification Submitted Successfully! Your profile is now live and verified.');
-            loadProfileData(); // Refresh UI to show locked category
-            showView('dashboard'); // Go back to dashboard to see success state
+            alert('✅ Verification Successful! Your account is now verified. Please complete any remaining profile details and click "Save & Publish Profile" to go live.');
+            loadProfileData(); 
+            showView('profile');
         }
     </script>
 </body>
